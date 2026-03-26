@@ -95,7 +95,7 @@ cd /workspaces/AMD-Mountain-Region-Bioinformatics-Code-Club
 ```
 
 ## Files used in this exercise
-The `data/` directory contains paired-end reads, bam files, and variant information in a vcf for two different Measles virus (MeV) samples: a patient clinical sample (`mev-pat-toy`) and a wastewater surveillance sample (`mev-ww-toy`), a reference fasta file, and a bedfile.
+The `data/` directory contains paired-end reads, sam files, and variant information in a vcf for two different Measles virus (MeV) samples: a patient clinical sample (`mev-pat-toy`) and a wastewater surveillance sample (`mev-ww-toy`), a reference fasta file, and a bedfile.
 
 ## Pre-FASTQ: Raw Instrument Output
 
@@ -127,6 +127,15 @@ Every sequencing read in a FASTQ file is represented by a specific four-line blo
 # copy a fastq file for decompression
 cp data/mev-pat-toy_R1.fastq.gz .
 gunzip mev-pat-toy_R1.fastq.gz
+```
+
+This file is now human-readable. 
+
+To count the total number of lines in fastq file (keeping in mind that every 4 lines equals 1 read):
+
+```bash
+# Count total lines
+wc -l mev-pat-toy_R1.fastq
 ```
 
 ### Quality Scores (Phred)
@@ -214,8 +223,6 @@ A SAM file consists of two primary sections:
 1.  **The Header Section**: Lines starting with `@`. These provide metadata about the reference sequences (`@SQ`), the software used for alignment (`@PG`), and the read groups (`@RG`).
 2.  **The Alignment Section**: Tab-separated lines representing individual read alignments.
 
-TODO: mention samtools stats, depth, coverage, flagstats and what they mean and what users should look for
-
 #### Core Alignment Columns
 Each alignment line contains at least 11 mandatory fields:
 
@@ -238,12 +245,7 @@ Each alignment line contains at least 11 mandatory fields:
 While the structural format of a SAM file is standardized by the Global Alliance for Genomics and Health (GA4GH), the metadata contained within the header section (lines starting with `@`) varies significantly depending on the alignment tool used. This section, specifically the **@PG (Program)** tag, serves as a record of the bioinformatic "provenance" of the file.
 
 ### The @PG Tag
-The `@PG` tag records the specific software name, version, and the exact command-line parameters used to generate the alignment. This transparency is essential for reproducibility in public health surveillance.
-
-#### Examples of Aligner-Specific Headers:
-* **Minimap2**: Often includes the `-x` preset (e.g., `map-ont` or `sr`) and the full command string, providing a clear record of whether the data was treated as long-reads or short-reads.
-* **BWA (Burrows-Wheeler Aligner)**: Typically records the specific algorithm (e.g., `bwa mem`) and the reference genome path.
-* **BBMap**: Known for producing highly detailed headers that may include specific information about how many threads were used or how the k-mer length was calculated.
+The `@PG` tag records the specific software name, version, and the exact command-line parameters used to generate the alignment.
 
 ### Comparison of Header Information
 
@@ -255,7 +257,7 @@ The `@PG` tag records the specific software name, version, and the exact command
 | **Bowtie2** | Version, Options, Alignment mode | Optimized for fast, memory-efficient short-read alignment. |
 
 ### Importance of Header Inspection
-Inspecting the header is the most reliable method for determining how a BAM file was created if the original scripts or logs are missing. This is particularly relevant when merging datasets from different laboratories or platforms.
+Inspecting the header is the most reliable method for determining how a SAM/BAM file was created if the original scripts or logs are missing. This is particularly relevant when merging datasets from different laboratories or platforms.
 
 ## BAM: Binary Alignment Map
 
@@ -291,7 +293,7 @@ To inspect the metadata without scrolling through millions of alignment lines:
 
 ```bash
 # View the header of a BAM file
-samtools view -H data/mev-pat-toy.bam
+samtools view -H mev-pat-toy.bam
 ```
 
 ### Alignment Quality Control with Samtools
@@ -329,7 +331,7 @@ A standard BED file must contain at least three columns, though it can extend to
 | **2** | **chromStart** | The 0-based starting position of the feature. |
 | **3** | **chromEnd** | The 1-based ending position of the feature. |
 
-
+As a warning, there are official versions of a BED file that require additional columns.
 
 ### Why Use BED Files?
 BED files allow for "targeted" analysis. Instead of processing an entire genome, tools can be instructed to only look at specific regions. This is particularly useful for:
@@ -397,7 +399,7 @@ To understand how the variants were called and what the abbreviations mean:
 
 ```bash
 # View only the meta-information lines
-grep "^##" data/training_comparison.vcf
+grep "^##" data/mev_toy_variants.vcf
 ```
 
 #### Command Example: Summary Statistics with BCFtools
@@ -405,23 +407,17 @@ BCFtools is used to generate a high-level summary of the variant types found in 
 
 ```bash
 # Generate a summary report of the VCF
-bcftools stats data/training_comparison.vcf | grep "^SN"
-```
-#### Command Example: Filtering for Quality
-In public health surveillance, it is often necessary to filter out low-confidence calls to ensure accurate lineage or resistance typing.
-
-```bash
-# View only the variants that passed all quality filters
-bcftools view -f PASS data/training_comparison.vcf | grep -v "^#" | head -n 5
+bcftools stats data/mev_toy_variants.vcf | grep "^SN"
 ```
 
 ## Multi-Sample Variant Calling with BCFtools
 
-Generating a VCF from multiple BAM files allows for the simultaneous identification and comparison of variants across different samples—in this case, a clinical patient sample (mev-pat-toy.bam) and a wastewater surveillance sample (mev-ww-toy.bam). This process uses a two-step pipeline that combines genotype likelihood generation with statistical calling.
+Generating a VCF from multiple BAM files allows for the simultaneous identification and comparison of variants across different samples—in this case, a clinical patient sample (`mev-pat-toy.bam`) and a wastewater surveillance sample (`mev-ww-toy.bam`). This process uses a two-step pipeline that combines genotype likelihood generation with statistical calling.
 
 ### The Variant Calling Pipeline
 1. bcftools mpileup: This utility scans the alignments and computes the likelihood of each possible genotype at every genomic position. It utilizes the reference FASTA file to determine which bases differ from the expected sequence.
 2. bcftools call: This utility consumes the output of the pileup and applies a calling model to decide whether a position truly represents a variant or is likely the result of sequencing error.
+
 #### Command Example: Generating a Multi-Sample VCF
 
 The following command strings these two utilities together using a pipe (|) to generate a single VCF file containing data for both samples.
@@ -454,7 +450,7 @@ To inspect the resulting calls and the sample-specific data columns without the 
 
 ```bash
 # View the variant calls and the sample data columns
-grep -v "^##" training_comparison.vcf | head -n 10
+grep -v "^##" mev_toy_variants.vcf | head -n 10
 ```
 
 ### The Bioinformatic Data Lifecycle
