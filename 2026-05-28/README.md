@@ -2,463 +2,246 @@
 
 ## Session Overview
 
-The primary objective of this 30-minute session is to understand that there are various database that can be used to identify AMR genes and the basics of how to use and interpret these resources.
+The primary objective of this 30-minute session is to understand that there are various database that can be used to identify Antimicrobial Resistant (AMR) genes and the basics of how to use and interpret these resources.
 
 By the end of this 30-minute code-along, participants will be able to:
 
-1. Bioinformatic Execution:
+* Deploy containerized tools: Successfully run [StaPH-B's docker images](https://github.com/StaPH-B/docker-builds) ([ABRicate](https://hub.docker.com/r/staphb/abricate) and [AMRFinderPlus](https://hub.docker.com/r/staphb/ncbi-amrfinderplus)) using command-line aliases to streamline complex bioinformatics workflows.
 
-Deploy containerized tools: Successfully run StaphB Docker images (abricate and ncbi-amrfinderplus) using command-line aliases to streamline complex bioinformatics workflows.
+* Compare search algorithms: Explain why nucleotide-based tools ([ABRicate](https://hub.docker.com/r/staphb/abricate)) and protein/HMM-based tools ([AMRFinderPlus](https://hub.docker.com/r/staphb/ncbi-amrfinderplus)) yield different results for the exact same bacterial genome.
 
-Format data for readability: Use command-line utilities (like the column command) to transform raw TSV output files into easily readable tables.
-
-2. Biological & Public Health Concepts:
-
-Differentiate resistance mechanisms: Understand the biological difference between acquired resistance (stolen genes on plasmids) and mutational resistance (evolutionary typos in housekeeping genes).
-
-Acknowledge the Genotype/Phenotype gap: Recognize that the bioinformatic presence of an AMR gene does not automatically guarantee clinical resistance in the wet lab.
-
-3. Data Interpretation & Tool Selection:
-
-Compare search algorithms: Explain why nucleotide-based tools (Abricate) and protein/HMM-based tools (AMRFinderPlus) yield different results for the exact same bacterial genome.
-
-Identify hidden threats: Interpret AMRFinderPlus output to identify critical point mutations (e.g., premature stop codons) and heavy metal/virulence plasmids that standard gene-hunters miss.
 
 ## References
-* Belay WY, Getachew M, Tegegne BA, Teffera ZH, Dagne A, Zeleke TK, Abebe RB, Gedif AA, Fenta A, Yirdaw G, Tilahun A, Aschale Y. Mechanism of antibacterial resistance, strategies and next-generation antimicrobials to contain antimicrobial resistance: a review. Front Pharmacol. 2024 Aug 16;15:1444781. doi: 10.3389/fphar.2024.1444781. PMID: 39221153; PMCID: PMC11362070.
+* Belay WY, Getachew M, Tegegne BA, Teffera ZH, Dagne A,   Zeleke TK, Abebe RB, Gedif AA, Fenta A, Yirdaw G, Tilahun A, Aschale Y. Mechanism of antibacterial resistance, strategies and next-generation antimicrobials to contain antimicrobial resistance: a review. Front Pharmacol. 2024 Aug 16;15:1444781. doi: 10.3389/fphar.2024.1444781. PMID: 39221153; PMCID: PMC11362070.
 * Sherry NL, Lee JYH, Giulieri SG, Connor CH, Horan K, Lacey JA, Lane CR, Carter GP, Seemann T, Egli A, Stinear TP, Howden BP. Genomics for antimicrobial resistance-progress and future directions. Antimicrob Agents Chemother. 2025 May 7;69(5):e0108224. doi: 10.1128/aac.01082-24. Epub 2025 Apr 14. PMID: 40227048; PMCID: PMC12057382.
-* Sati H, Carrara E, Savoldi A, Hansen P, Garlasco J, Campagnaro E, Boccia S, Castillo-Polo JA, Magrini E, Garcia-Vello P, Wool E, Gigante V, Duffy E, Cassini A, Huttner B, Pardo PR, Naghavi M, Mirzayev F, Zignol M, Cameron A, Tacconelli E; WHO Bacterial Priority Pathogens List Advisory Group. The WHO Bacterial Priority Pathogens List 2024: a prioritisation study to guide research, development, and public health strategies against antimicrobial resistance. Lancet Infect Dis. 2025 Sep;25(9):1033-1043. doi: 10.1016/S1473-3099(25)00118-5. Epub 2025 Apr 14. PMID: 40245910; PMCID: PMC12367593.
+* Sati H, Carrara E, Savoldi A, Hansen P, Garlasco J, Campagnaro E, Boccia S, Castillo-Polo JA, Magrini E, Garcia-Vello P, Wool E, Gigante V, Duffy E, Cassini A, Huttner B, Pardo PR, Naghavi M, Mirzayev F, Zignol M, Cameron A, Tacconelli E; WHO Bacterial Priority Pathogens List Advisory Group. The WHO Bacterial Priority Pathogens List 2024: a prioritisation study to guide research, development, and public health strategies against a ntimicrobial resistance. Lancet Infect Dis. 2025 Sep;25(9):1033-1043. doi: 10.1016/S1473-3099(25)00118-5. Epub 2025 Apr 14. PMID: 40245910; PMCID: PMC12367593.
 * Darby EM, Trampari E, Siasat P, Gaya MS, Alav I, Webber MA, Blair JMA. Molecular mechanisms of antibiotic resistance revisited. Nat Rev Microbiol. 2023 May;21(5):280-295. doi: 10.1038/s41579-022-00820-y. Epub 2022 Nov 21. Erratum in: Nat Rev Microbiol. 2024 Apr;22(4):255. doi: 10.1038/s41579-024-01014-4. PMID: 36411397.
 * [abricate](https://github.com/tseemann/abricate)
 * Feldgarden M, Brover V, Gonzalez-Escalona N, Frye JG, Haendiges J, Haft DH, Hoffmann M, Pettengill JB, Prasad AB, Tillman GE, Tyson GH, Klimke W. AMRFinderPlus and the Reference Gene Catalog facilitate examination of the genomic links among antimicrobial resistance, stress response, and virulence. Sci Rep. 2021 Jun 16;11(1):12728. doi: 10.1038/s41598-021-91456-0. PMID: 34135355; PMCID: PMC8208984. https://github.com/ncbi/amr
 
 
 ## Tool Installation
+ 
+Nothing will be installed in this code club, instead we will utilize [StaPH-B's docker images](https://github.com/StaPH-B/docker-builds) for [ABRicate](https://hub.docker.com/r/staphb/abricate) and NCBI Antimicrobial Resistance Gene Finder ([AMRFinderPlus](https://hub.docker.com/r/staphb/ncbi-amrfinderplus)). 
 
-Nothing will be installed in this code club, instead we will utilize staphb's docker images for abricate and amrfinder. 
+We are going to set up an alias to run the docker commands. This allows us to avoid a massive Docker command every single time we want to run a tool. It's shortcut for command-line commands. Any generated alias will not be saved between GitHub CodeSpace sessions.
 
-To save us from typing a massive Docker command every single time we want to run a tool, we're going to set up an alias. Think of it like a keyboard shortcut or a speed-dial for your terminal. We teach the computer the long version once, and from then on, we only have to type the name of the tool. This will not be saved between GitHub CodeSpace sessions.
-
+### Pulling ABRicate
 ```bash
 docker pull staphb/abricate:1.2.0
 alias abricate='docker run --rm -v "$(pwd):/data" -w /data staphb/abricate:1.2.0 abricate'
 ```
 
+### Pulling AMRFinderPlus
 ```bash
 docker pull staphb/ncbi-amrfinderplus:4.2.7-2026-03-24.1
 alias amrfinder='docker run --rm -v "$(pwd):/data" -w /data staphb/ncbi-amrfinderplus:4.2.7-2026-03-24.1 amrfinder'
 ```
 
-
 ## Download some test files
+
+We are going to download files for two organisms:
+* _Klebsiella pneumoniae_: [GCF_002813595.1](https://www.ncbi.nlm.nih.gov/datasets/genome/GCF_002813595.1/)
+* _Campylobacter jejuni_: [GCA_056635755.1](https://www.ncbi.nlm.nih.gov/datasets/genome/GCA_056635755.1/)
+
+### Downloading the Klebsiella test file
+
 ```bash
 # Download the zipped assembly file from NCBI
-wget -q https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/002/813/595/GCF_002813595.1_ASM281359v1/GCF_002813595.1_ASM281359v1_genomic.fna.gz
+wget https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/002/813/ 595/GCF_002813595.1_ASM281359v1/GCF_002813595.1_ASM281359v1_genomic.fna.gz
 
 # Decompress the file so our tools can read it
 gunzip GCF_002813595.1_ASM281359v1_genomic.fna.gz
 
-# Rename the long NCBI file to something simple
+# Rename the file to something simple
 mv GCF_002813595.1_ASM281359v1_genomic.fna klebsiella_isolate.fna
 ```
+### Downloading the Campylobacter test file
+```bash
+# Download the zipped assembly file from NCBI
+wget https://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/056/635/755/GCA_056635755.1_PDT003170548.1/GCA_056635755.1_PDT003170548.1_genomic.fna.gz
 
-## AMR Gene Detection
+# Decompress the file so our tools can read it
+gunzip GCA_056635755.1_PDT003170548.1_genomic.fna.gz
 
-### Background
-
-AMR Genes are bad. They increase the cost of healthcare and hurt people. There are several databases available for identification of AMR.
-
-1. General Bacteria (Non-TB)These databases primarily catalog acquired resistance genes (e.g., a bacteria picking up a plasmid) and are the engines behind general screening tools like abricate and AMRFinderPlus.DatabaseFull Name / ScopePrimary Use CaseCARDComprehensive Antibiotic Resistance DatabaseThe gold standard for curated AMR ontology and predictive models (Strict vs. Loose hits).NDARONational Database of Antibiotic Resistant Organisms (NCBI)The highly curated dataset powering AMRFinderPlus. Required for NCBI submissions.ResFinderDTU Acquired Antimicrobial Resistance GenesExtremely popular for rapidly identifying genes acquired via horizontal gene transfer.ARG-ANNOTAntibiotic Resistance Gene-ANNOTationA fast, lightweight database often used in local or desktop bioinformatic pipelines.MEGAResHigh-throughput AMR sequence databaseEssential for environmental/metagenomic studies. Includes biocides and heavy metals.BacMetAntibacterial Biocide and Metal Resistance GenesThe definitive source for tracking resistance to industrial chemicals, heavy metals, and disinfectants.SARGStructured ARG databaseDesigned specifically for metagenomic profiling of environmental samples (like wastewater).FARMEFunctional Antibiotic Resistant Metagenomic ElementCatalogs AMR genes discovered purely through functional metagenomics, not sequence homology.BV-BRCBacterial and Viral Bioinformatics Resource CenterA massive aggregator that maps clinical phenotypes to genomic data (formerly PATRIC).2. Mycobacterium tuberculosis (TB)TB resistance is driven by chromosomal point mutations rather than acquired plasmids. These databases track specific single-nucleotide polymorphisms (SNPs) and grade their clinical impact.DatabaseFull Name / ScopePrimary Use CaseWHO CatalogueWHO TB Mutation CatalogueThe ultimate global authority. Grades mutations as "Associated with Resistance," "Benign," or "Uncertain."ReSeqTBRelational Sequencing TB Data PlatformA collaborative platform linking specific genomic mutations directly to lab-verified clinical outcomes.TB-Profiler DBTB-Profiler Internal DatabaseThe underlying library for the most popular command-line TB resistance profiling tool.Mykrobe DBMykrobe Predictor DatabaseUses k-mers to rapidly identify resistance-causing mutations straight from raw reads.CRyPTICComprehensive Resistance Prediction for TBA massive global dataset used to discover and validate rare resistance-conferring mutations.PhyResSETB Lineage and Resistance ServerMaps specific mutations to both drug resistance and evolutionary lineage.3. Viruses (Including Flu)Viral resistance is almost entirely based on structural point mutations that allow the virus to evade drugs or antibodies. Viral databases function as interpretation engines for specific pathogens.VirusDatabasePrimary Use CaseInfluenzaGISAID / EpiFlu (FluSurver)The premier global repository. Scans flu sequences for mutations causing Tamiflu/antiviral resistance.InfluenzaBV-BRC (formerly IRD)Automatically flags sequences containing known "Phenotypic Variant Types" linked to resistance.InfluenzaNCBI Influenza Virus ResourceCentralizes GenBank flu data and uses the FLAN tool to map where resistance mutations occur.InfluenzaOpenFluDBAn isolate-centric database coupling genomic resistance markers with deep epidemiological tracking.HIVStanford HIVdbThe undisputed standard for predicting HIV resistance to Protease, Integrase, and RT inhibitors.HIVLANL HIV Sequence DatabaseLos Alamos National Lab's massive repository tracking global HIV evolution and resistance mutations.SARS-CoV-2Stanford CoV-RDBTracks coronavirus mutations that cause immune escape or resistance to antivirals like Paxlovid.SARS-CoV-2GISAID EpiCoV (CoVSurver)The global pandemic repository, tracking variants of concern and their specific treatment-evading mutations.Hepatitis CHCV-GLUEAutomates the detection of Resistance-Associated Substitutions (RASs) for HCV.Hepatitis B/CGeno2phenoAn interpretive web suite that predicts viral phenotypic resistance from genomic sequences.CMVMRC-University of Glasgow CMV DatabaseTracks mutations conferring resistance in Cytomegalovirus, particularly important for transplant patients.
-
-Today we will focus on bacteria.
-
-The Genomic Architecture of Bacterial AMR
-Unlike human cells, bacteria do not keep their DNA locked inside a nucleus. Their genetic material is floating in the cytoplasm and is divided into two primary "neighborhoods." Where an AMR gene is located dictates how the bacteria uses it and, crucially, how quickly it can share that resistance with other bacteria.
-
-1. The Chromosome (The "Hard Drive")
-The bacterial chromosome is typically a single, large, circular piece of DNA. It contains all the essential "housekeeping" genes required for the bacteria to live, grow, and reproduce.
-
-Intrinsic Resistance: Some bacteria are naturally resistant to certain antibiotics simply because of their default chromosomal makeup (e.g., they lack the physical target the drug attacks).
-
-Mutational Resistance: If a bacteria is treated with an antibiotic, it might survive by developing a random "typo" (point mutation) in a chromosomal gene. For example, if a drug targets a specific chromosomal protein, a mutation might change the shape of that protein just enough so the drug no longer fits.
-
-Bioinformatic Impact: Tools that look for acquired genes (like abricate) will completely miss these chromosomal point mutations. You need different tools (like AMRFinderPlus or point-mutation databases) to find them.
-
-2. Plasmids (The "Flash Drives")
-Plasmids are small, circular, extra-chromosomal pieces of DNA. They are not essential for basic survival, but they carry "bonus" features—most notably, AMR genes.
-
-The Source of "Superbugs": Plasmids are the primary vehicles for acquired resistance. A single plasmid can carry multiple genes, providing resistance to several different classes of antibiotics all at once.
-
-Bioinformatic Impact: When you run an AMR screening tool on a hospital pathogen like Klebsiella or E. coli, you are almost always hunting for genes located on these plasmids.
-
-```mermaid
----
-Background
----
-flowchart TD
-    %% The Starting Point
-    G[Genotype Detected<br/>Bioinformatics finds the AMR Gene] --> Assess{Is the gene<br/>functional?}
-    
-    %% The Success Pathway
-    Assess -->|Yes| Express[Strong Promoter +<br/>Intact Sequence]
-    Express --> Protein[Functional Resistance Protein built]
-    Protein --> PhenoR[[Phenotype: RESISTANT<br/>Wet lab confirms drug fails]]
-    
-    %% The Failure Pathways
-    Assess -->|No: Missing Promoter| Silenced[Gene is silenced / not expressed]
-    Assess -->|No: Point Mutation| Broken[Premature Stop Codon breaks protein]
-    
-    Silenced -.-> PhenoS[[Phenotype: SUSCEPTIBLE<br/>Drug still kills bacteria]]
-    Broken -.-> PhenoS
-    
-    %% Styling to emphasize the outcomes
-    style G fill:#e3f2fd,stroke:#1e88e5,stroke-width:2px
-    style Assess fill:#fff9c4,stroke:#fbc02d,stroke-width:2px
-    style PhenoR fill:#ffcdd2,stroke:#b71c1c,stroke-width:3px
-    style PhenoS fill:#c8e6c9,stroke:#1b5e20,stroke-width:3px
+# Rename the file to something simple
+mv GCA_056635755.1_PDT003170548.1_genomic.fna campylobacter_isolate.fna
 ```
 
+## Background
 
-Mobile Genetic Elements (The "Vehicles")
-How do AMR genes actually get onto plasmids or chromosomes in the first place? They use Mobile Genetic Elements (MGEs)—sequences of DNA that can physically cut and paste themselves.
+### The Molecular and Systemic Burden of AMR
 
-Transposons ("Jumping Genes"): These are segments of DNA that can jump from the chromosome to a plasmid, or from one plasmid to another. They often "carry" AMR genes with them when they jump.
+The global dissemination of antimicrobial resistance (AMR) genes represents a critical inflection point in modern medicine, signifying a systemic erosion of the therapeutic window. From a molecular perspective, these genes facilitate a rapid, stochastic expansion of the bacterial [resistome](https://en.wikipedia.org/wiki/Resistome) across phylogenetic boundaries. For the epidemiologist, this manifests as an increased burden of morbidity and mortality, as common pathogens evolve into "superbugs" that defy standard-of-care protocols. For the laboratorian and bioinformatician, the challenge lies in the shifting landscape of diagnostic targets. Beyond the immediate clinical failure, the proliferation of these genetic markers undermines the safety of high-stakes interventions, including solid-organ transplantation, complex oncology regimens, and neonatal intensive care, effectively threatening to revert global health infrastructure to a pre-antibiotic paradigm where simple infections become fatal events.
 
-Integrons: Think of integrons as genetic "Velcro." They are specialized capture systems that snag passing AMR genes (called gene cassettes) and stack them up in a row. A single integron can collect half a dozen different resistance genes, creating a highly efficient, multi-drug resistant package.
+### The Genotype vs. Phenotype Disconnect
 
-How AMR Spreads: Horizontal Gene Transfer (HGT)
+A major limitation of bioinformatic AMR screening is that detecting an AMR gene (the genotype) does not guarantee the organism is actually resistant to the antibiotic in real life (the phenotype). Tools like ABRicate scan for matching DNA sequences, but they cannot indicate if that sequence is actually functioning. For example, a detected gene might lack a strong upstream promoter. Because of these biological variables, genomic AMR detection is an incredibly powerful early-warning and surveillance tool, but it is not a perfect replacement for traditional, wet-lab Antimicrobial Susceptibility Testing (AST) when making critical patient treatment decisions.
 
-```mermaid
-graph TD
-    HGT((Horizontal<br/>Gene Transfer))
-    
-    %% Standard definitions to connect context
-    HGT --> Transduction[Transduction]
-    HGT --> Transformation[Transformation]
-    HGT --> Conjugation[Conjugation]
+### AMR Genes can be found on chromosomes or plasmids
 
-    %% What is happening visually
-    Transduction -->|Mechanism| Virus[Viral delivery<br/>Bacteriophage]
-    Transformation -->|Mechanism| Scavenge[Scavenging<br/>Free DNA in Environment]
-    Conjugation -->|Mechanism| Mating[Bacterial Mating<br/>Direct Connection]
+The topological distribution of AMR genes within the bacterial genome (including both the AMR genes located on chromosomes and on plasmids). Chromosomal markers typically underpin intrinsic resistance or emerge via vertical inheritance of point mutations in conserved loci. Plasmid-mediated AMR is driven by horizontal gene transfer (HGT), where promiscuous extra-chromosomal elements facilitate the rapid, inter-species spread of multi-drug resistant (MDR) cassettes.
 
-    %% What they share visually
-    Virus -.->|Delivers| AMR1[AMR Genes<br/>e.g., Chromosomal fragment]
-    Scavenge -.->|Delivers| AMR2[AMR Genes<br/>e.g., Broken Plasmid]
-    Mating ==>|Copies/Sends| Plasmid[Plasmid Flash Drive<br/>AMR Weapon Payload]
+### The Big Five Carbapenemases
 
-    %% Styling for visual emphasis
-    style Conjugation fill:#ffb74d,stroke:#333,stroke-width:2px
-    style Mating fill:#ffb74d,stroke:#333,stroke-width:1px
-    style Plasmid fill:#ffb74d,stroke:#333,stroke-width:2px,stroke-dasharray: 5 5
+There are a lot of genes implicated in resistance. In order to coordinate efforts a subset of genes are considered "higher" priority.
+
+* [KPC](https://en.wikipedia.org/wiki/Beta-lactamase#KPC_(K._pneumoniae_carbapenemase)_(class_A))
+* [NDM](https://en.wikipedia.org/wiki/New_Delhi_metallo-beta-lactamase_1)
+* [VIM](https://en.wikipedia.org/wiki/Beta-lactamase#VIM_(Verona_integron-encoded_metallo-%CE%B2-lactamase)_(Class_B))
+* IMP
+* OXA-48-like
+* GES (not actually one of the Big 5)
+
+### Incomplete database of AMR gene databases for various bacteria and viruses
+
+The following tables delineate a non-exhaustive selection of genomic databases and interpretive resources utilized for the identification of acquired resistance determinants and conferring polymorphisms across the bacterial and viral resistomes.
+
+#### General Bacterial AMR Databases (Non-TB)
+
+| Database | Full Name / Scope | Primary Use Case |
+| :--- | :--- | :--- |
+| **CARD** | Comprehensive Antibiotic Resistance Database | The gold standard for curated AMR ontology and predictive models (Strict vs. Loose hits). |
+| **NDARO** | National Database of Antibiotic Resistant Organisms (NCBI) | Highly curated dataset powering AMRFinderPlus; required for NCBI submissions. |
+| **ResFinder** | DTU Acquired Antimicrobial Resistance Genes | Rapid identification of genes acquired via horizontal gene transfer (HGT). |
+| **ARG-ANNOT** | Antibiotic Resistance Gene-ANNOTation | Lightweight database optimized for local or desktop bioinformatic pipelines. |
+| **MEGARes** | High-throughput AMR sequence database | Environmental and metagenomic studies; includes biocides and heavy metal resistance. |
+| **BacMet** | Antibacterial Biocide and Metal Resistance Genes | Tracking resistance to industrial chemicals, heavy metals, and disinfectants. |
+| **SARG** | Structured ARG database | Specialized for metagenomic profiling of environmental samples (e.g., wastewater). |
+| **FARME** | Functional Antibiotic Resistant Metagenomic Element | Catalogs AMR genes discovered via functional metagenomics rather than homology. |
+| **BV-BRC** | Bacterial and Viral Bioinformatics Resource Center | Aggregator mapping clinical phenotypes to genomic data (formerly PATRIC). |
+
+#### Mycobacterium tuberculosis (TB) Databases
+| Database | Full Name / Scope | Primary Use Case |
+| :--- | :--- | :--- |
+| **WHO Catalogue** | WHO TB Mutation Catalogue | Global authority for grading mutations as "Associated with Resistance," "Benign," or "Uncertain." |
+| **ReSeqTB** | Relational Sequencing TB Data Platform | Collaborative platform linking genomic mutations to lab-verified clinical outcomes. |
+| **TB-Profiler DB** | TB-Profiler Internal Database | Underlying library for the prominent command-line TB resistance profiling tool. |
+| **Mykrobe DB** | Mykrobe Predictor Database | Utilizes k-mer based approaches for rapid identification of resistance mutations from raw reads. |
+| **CRyPTIC** | Comprehensive Resistance Prediction for TB | Global dataset used to validate rare or emergent resistance-conferring mutations. |
+| **PhyResSE** | TB Lineage and Resistance Server | Mapping mutations to both drug resistance and evolutionary lineage. |
+
+
+#### Viral Resistance Databases
+
+| Pathogen | Database | Primary Use Case |
+| :--- | :--- | :--- |
+| **Influenza** | GISAID / EpiFlu (FluSurver) | Global repository scanning for Tamiflu and other antiviral resistance markers. |
+| **Influenza** | BV-BRC (formerly IRD) | Automated flagging of sequences with known phenotypic variants linked to resistance. |
+| **Influenza** | NCBI Influenza Virus Resource | Centralizes GenBank data and utilizes the FLAN tool for mutation mapping. |
+| **HIV** | Stanford HIVdb | The clinical standard for predicting resistance to Protease, Integrase, and RT inhibitors. |
+| **HIV** | LANL HIV Sequence Database | Tracking global HIV evolution and associated resistance mutations. |
+| **SARS-CoV-2** | Stanford CoV-RDB | Monitoring mutations conferring immune escape or resistance to antivirals (e.g., Paxlovid). |
+| **SARS-CoV-2** | GISAID EpiCoV (CoVSurver) | Tracking Variants of Concern (VOCs) and treatment-evading mutations. |
+| **HCV** | HCV-GLUE | Automated detection of Resistance-Associated Substitutions (RASs). |
+| **Hepatitis B/C** | Geno2pheno | Predictive web suite for viral phenotypic resistance from genomic sequences. |
+| **CMV** | MRC-University of Glasgow | Tracking mutations conferring resistance in Cytomegalovirus, critical for transplant patients. |
+
+## Using ABRicate
+
+[ABRicate](https://hub.docker.com/r/staphb/abricate) is a highly efficient bioinformatics tool designed to mass-screen assembled bacterial genomes for acquired antimicrobial resistance and virulence genes. It uses DNA-to-DNA comparison (BLASTN) to rapidly scan a sample's contigs against massive, curated public databases like NCBI, CARD, and ResFinder.
+
+### Listing available databases
+
+Use `abricate --list` To observe what databases are already installed in the ABRicate image.
+
+```bash
+abricate --list
 ```
 
-Because AMR genes live on these mobile elements and plasmids, bacteria don't have to wait to reproduce to pass on resistance (vertical transfer). They can share resistance laterally with their neighbors—even neighbors of a completely different bacterial species.
-
-There are three main ways this happens:
-
-Conjugation (Bacterial "Mating"): Two bacteria physically connect via a tube (pilus), and one copies its AMR-loaded plasmid and sends it directly to the other. This is the most common driver of hospital outbreaks.
-
-Transformation (Scavenging): When a resistant bacteria dies and bursts open, it leaves its DNA floating in the environment. A nearby living bacteria can scavenge that free-floating AMR DNA and incorporate it into its own genome.
-
-Transduction (Viral Delivery): Bacteriophages (viruses that infect bacteria) can accidentally package an AMR gene from one bacteria and inject it into the next bacteria they infect.
-
-When we run our code today, we are taking a bacterial genome that has been shattered into thousands of pieces and reassembled. Our tool is going to scan that digital DNA to find the exact genetic sequences of these plasmids, transposons, and integrons to tell us exactly which weapons this bacteria has collected.
-
-```mermaid
-stateDiagram-v2
-    state "Before Connection" as s1 {
-        [*] --> Donor_Cell_1
-        Donor_Cell_1: (R) Resistant
-        Donor_Cell_1: Has Plasmid Flash Drive (blaKPC)
-        
-        [*] --> Recipient_Cell_1
-        Recipient_Cell_1: (S) Susceptible
-        Recipient_Cell_1: No Plasmid
-    }
-    
-    s1 --> s2: Connection via Pilus tube
-
-    state "Connecting and Copying" as s2 {
-        Donor_Cell_2 --> Susceptible_Cell_2: Pilus tube connects cytoplasm
-        Donor_Cell_2: (R) Resistant
-        Donor_Cell_2: Copies its Plasmid
-        
-        Susceptible_Cell_2: (S) Susceptible
-        Susceptible_Cell_2: **Receiving** the newly copied Plasmid
-    }
-
-    s2 --> s3: Transfer Complete / Separation
-
-    state "After Separation" as s3 {
-        Donor_Cell_3: (R) Resistant
-        Donor_Cell_3: Still has Plasmid
-        
-        New_Resistant_Cell_3: (R) **NOW** Resistant
-        New_Resistant_Cell_3: Has identical Plasmid (blaKPC)
-    }
-
-    %% Basic styling to highlight resistant vs susceptible
-    classDef resistant fill:#ffb74d,stroke:#333,color:black;
-    classDef susceptible fill:#81d4fa,stroke:#333,color:black;
-
-    class Donor_Cell_1 resistant
-    class Donor_Cell_2 resistant
-    class Donor_Cell_3 resistant
-    class New_Resistant_Cell_3 resistant
-    
-    class Recipient_Cell_1 susceptible
-    class Susceptible_Cell_2 susceptible
+The results should be something like the following:
+```
+DATABASE        SEQUENCES       DBTYPE  DATE
+resfinder       3206    nucl    2026-Jan-8
+card    6052    nucl    2026-Jan-8
+ecoli_vf        2701    nucl    2026-Jan-8
+vfdb    4592    nucl    2026-Jan-8
+argannot        2224    nucl    2026-Jan-8
+megares 6635    nucl    2026-Jan-8
+victors 4545    nucl    2026-Jan-8
+plasmidfinder   488     nucl    2026-Jan-8
+bacmet2 746     prot    2026-Jan-8
+ncbi    8035    nucl    2026-Jan-8
+ecoh    597     nucl    2026-Jan-8
 ```
 
-the breakdown of AMR gene anatomy to share with your group.
-
-1. The Size of an AMR Gene
-On average, a single bacterial AMR gene is between 500 and 1,500 base pairs (bp) long.
-
-Small Genes (e.g., bla genes for Beta-lactamases): Often around 800–1,000 bp.
-
-Large Genes (e.g., Efflux Pumps): Can be 2,000 to 3,000+ bp because they code for massive, complex physical transport machines that span the bacterial cell wall.
-
-Bioinformatic Context for your Code-Along: Because standard Illumina short-read sequencing only reads 150 bp at a time, bioinformatics tools have to piece these genes back together (assembly) before a tool like abricate can accurately identify them.
-
-2. The Anatomy of the Gene Neighborhood
-
-```mermaid
-flowchart LR
-    %% Defining the individual DNA components
-    IS(Insertion Sequence<br/>e.g., ISAba1) --> Prom(Promoter<br/>'On Switch')
-    Prom --> RBS(Ribosome Binding<br/>Site)
-    
-    RBS --> Start[Start Codon<br/>ATG]
-    Start --> AMR[[AMR Gene Sequence<br/>e.g., blaKPC ~1000bp]]
-    AMR --> Stop[Stop Codon]
-    
-    Stop --> Term(Transcriptional<br/>Terminator)
-    Term -.-> Next[[Next Gene Cassette<br/>in Operon]]
-
-    %% Grouping them into visual neighborhoods
-    subgraph Upstream [Upstream: The 'Control Room']
-        IS
-        Prom
-        RBS
-    end
-
-    subgraph Gene [The Actual Resistance Weapon]
-        Start
-        AMR
-        Stop
-    end
-
-    subgraph Downstream [Downstream: The 'Brakes' & Linkages]
-        Term
-        Next
-    end
-
-    %% Coloring for visual distinction
-    style Upstream fill:#f3e5f5,stroke:#8e24aa,stroke-dasharray: 5 5
-    style Gene fill:#e3f2fd,stroke:#1e88e5,stroke-width:2px
-    style Downstream fill:#fff3e0,stroke:#f4511e,stroke-dasharray: 5 5
-    
-    style AMR fill:#bbdefb,stroke:#000,stroke-width:2px
-    style IS fill:#ffcdd2,stroke:#000
-```
-An AMR gene rarely travels alone. To actually function and move, it needs a "control room" upstream and "brakes" downstream.
-
-Upstream (The "Control Room")
-The region immediately before the gene's start codon (usually ATG) dictates if and how loudly the gene is expressed.
-
-The Promoter: The binding site for RNA polymerase. If a bacteria picks up an AMR gene but doesn't have a strong promoter upstream, the bacteria remains susceptible to the drug because the gene is essentially "turned off."
-
-Ribosome Binding Site (Shine-Dalgarno Sequence): A short sequence (roughly 8 bases upstream of the start codon) that tells the bacterial machinery where to latch on to start building the resistance protein.
-
-Insertion Sequences (IS Elements): This is a massive driver of resistance! Mobile elements like ISAba1 or IS1 often insert themselves right upstream of an AMR gene. These IS elements bring their own exceptionally strong promoters, inadvertently "cranking the volume" of the AMR gene to maximum and causing hyper-resistance.
-
-Downstream (The "Brakes and Linkages")
-The region immediately following the gene's stop codon.
-
-Transcriptional Terminators: Often a stem-loop structure (a sequence of DNA that folds back on itself) that forces the cellular machinery to stop reading.
-
-Additional Gene Cassettes: Bacteria are highly efficient. AMR genes are frequently stacked back-to-back in an "operon." The downstream region of one AMR gene might immediately flow into the upstream region of a second AMR gene, allowing the bacteria to turn on multiple resistance mechanisms with a single promoter.
-
-3. The "Cassette" Structure (Integrons)
-If your participants are looking at multi-drug resistant plasmids, they are likely looking at an Integron. Integrons are genetic capture systems, and their upstream/downstream structure is highly rigid and recognizable by bioinformatic tools:
-
-Upstream (The Engine): An intI gene (which produces the Integrase enzyme that "captures" new genes) followed by a strong promoter.
-
-The Target (attI): The specific upstream docking site where new AMR genes get plugged in.
-
-The AMR Gene(s): The actual coding sequence for the resistance protein.
-
-Downstream (attC): A specific recombination site at the end of the gene. This acts like the bottom half of a piece of genetic Velcro, allowing the next captured AMR gene to attach right behind it.
-
-When your participants run their tool and see a column for %COVERAGE in their results, this structure is exactly what the tool is measuring.
-
-If the tool reports 100% coverage, it means it found the complete start-to-finish sequence. If it reports 40% coverage, the tool likely found a broken gene where an Insertion Sequence interrupted the coding region, or the assembly failed to stitch the full 1,000 base pairs back together!
-
-## General Limitations
-
-
-The Genotype vs. Phenotype Disconnect
-
-```mermaid
-flowchart TD
-    %% The Starting Point
-    G[Genotype Detected<br/>Bioinformatics finds the AMR Gene] --> Assess{Is the gene<br/>functional?}
-    
-    %% The Success Pathway
-    Assess -->|Yes| Express[Strong Promoter +<br/>Intact Sequence]
-    Express --> Protein[Functional Resistance Protein built]
-    Protein --> PhenoR[[Phenotype: RESISTANT<br/>Wet lab confirms drug fails]]
-    
-    %% The Failure Pathways
-    Assess -->|No: Missing Promoter| Silenced[Gene is silenced / not expressed]
-    Assess -->|No: Point Mutation| Broken[Premature Stop Codon breaks protein]
-    
-    Silenced -.-> PhenoS[[Phenotype: SUSCEPTIBLE<br/>Drug still kills bacteria]]
-    Broken -.-> PhenoS
-    
-    %% Styling to emphasize the outcomes
-    style G fill:#e3f2fd,stroke:#1e88e5,stroke-width:2px
-    style Assess fill:#fff9c4,stroke:#fbc02d,stroke-width:2px
-    style PhenoR fill:#ffcdd2,stroke:#b71c1c,stroke-width:3px
-    style PhenoS fill:#c8e6c9,stroke:#1b5e20,stroke-width:3px
-```
-
-
-A major limitation of bioinformatic AMR screening is that detecting an AMR gene (the genotype) does not guarantee the organism is actually resistant to the antibiotic in real life (the phenotype). Tools like abricate scan for matching DNA sequences, but they cannot tell you if that sequence is actually functioning. For a gene to confer resistance, it must be actively "turned on" (expressed) by the bacteria. A detected gene might lack a strong upstream promoter, meaning the bacteria simply doesn't produce enough of the resistance protein to survive drug exposure. Alternatively, the gene might have a hidden frameshift mutation or an early stop codon that renders the resulting protein broken and useless. Because of these biological variables, genomic AMR detection is an incredibly powerful early-warning and surveillance tool, but it is not a perfect replacement for traditional, wet-lab Antimicrobial Susceptibility Testing (AST) when making critical patient treatment decisions.
-
-How you can frame this in the session:
-
-"Bioinformatics tells us the bacteria owns the blueprint for a weapon. It doesn't tell us if the bacteria actually built the weapon, or if the weapon is broken. That is why the wet lab and the dry lab must always work together."
-
-
-## metagenomics notes
-
-Here is a breakdown of the pros and cons you can share with your participants to explain the shift from Isolate-based AMR to Metagenomic AMR.
-
-🟢 The Pros: Why Public Health Loves Metagenomics
-Culture-Independent (The "See Everything" Approach): Up to 99% of environmental bacteria cannot be grown in a standard lab culture. Metagenomics bypasses the petri dish entirely, allowing you to sequence the DNA of unculturable bacteria and discover AMR genes you would otherwise miss.
-
-The Complete "Resistome": Instead of just looking at the weapons of one pathogen, metagenomics gives you the "resistome"—a snapshot of all the resistance genes present in an entire community (e.g., a city's wastewater or a hospital's plumbing system).
-
-Early Warning & Surveillance: You can detect the arrival of a dangerous AMR gene (like NDM-1 or mcr-1) in a community's wastewater days or weeks before a clinical patient shows up at the hospital with an infection.
-
-Speed in Outbreaks: For slow-growing bacteria (like Mycobacterium tuberculosis, which takes weeks to culture), clinical metagenomics done directly on a patient sample (like sputum) can identify resistance genes much faster than waiting for lab growth.
-
-🔴 The Cons: The Bioinformatics Nightmare
-The "Host Linkage" Problem (The Biggest Flaw): When you grind up a sample and sequence all the DNA, it gets mixed together. If your bioinformatic tool finds a terrifying KPC carbapenemase gene, you don't know who it belongs to. Was it carried by a lethal Klebsiella pneumoniae, or was it sitting harmlessly inside a benign, environmental soil bug?
-
-Drowning Out Rare Pathogens: In a metagenomic sample, harmless background bacteria dominate the data. A dangerous AMR pathogen might only make up 0.01% of the DNA in the sample, meaning you might not get enough sequencing depth to confidently piece its AMR genes together.
-
-Point Mutations are Nearly Impossible to Call: Because of the host linkage problem and uneven sequencing depth, it is incredibly difficult to confidently call mutational resistance (like the gyrA mutations you discussed earlier) in a metagenomic soup. You can't tell if the mutation is a real resistance marker or just natural variation from a different bacterial species.
-
-Computationally Exhausting: Assembling a single bacterial genome (isolate) takes a few minutes on a standard laptop. Assembling a complex metagenome can take days and requires massive cloud computing resources or supercomputers.
-
-If you are running Abricate on an isolate, you assemble the genome first and then search for genes. But if you have a metagenomic sample, the assembly process is incredibly messy. Instead, public health bioinformaticians often skip assembly entirely and use 'read-mapping' tools (like SRST2 or KMA) to map the raw, unassembled short reads directly against databases like MEGARes or CARD.
-
-## The Big Five Carbapenemases
-```mermaid
-graph TD
-    %% Main Node
-    B5((The Big Five<br/>Carbapenemases))
-    
-    %% The Classes
-    B5 --> CA[Class A<br/>Serine-Carbapenemase]
-    B5 --> CB[Class B<br/>Metallo-β-lactamase<br/>Zinc dependent]
-    B5 --> CD[Class D<br/>Oxacillinase]
-    
-    %% The Specific Genes
-    CA --> KPC[1. KPC<br/>Dominant in USA<br/>Endemic in Klebsiella]
-    
-    CB --> NDM[2. NDM<br/>Global threat<br/>Extreme multi-drug resistance]
-    CB --> VIM[3. VIM<br/>Integron-associated<br/>Often bundled with other genes]
-    CB --> IMP[4. IMP<br/>ICU/Ventilator threat<br/>Endemic in Pseudomonas]
-    
-    CD --> OXA[5. OXA-48-like<br/>Weak hydrolysis<br/>Very hard to detect in wet lab]
-    
-    %% Styling for visual grouping
-    style B5 fill:#ffcdd2,stroke:#b71c1c,stroke-width:3px
-    style CA fill:#bbdefb,stroke:#0d47a1,stroke-width:2px
-    style CB fill:#c8e6c9,stroke:#1b5e20,stroke-width:2px
-    style CD fill:#e1bee7,stroke:#4a148c,stroke-width:2px
-```
-
-1. KPC (Klebsiella pneumoniae carbapenemase)
-Class: Serine-Carbapenemase (Class A)
-
-The Background: Originally discovered in Klebsiella pneumoniae in the USA, it has since jumped into E. coli and other Gram-negative bacteria.
-
-Public Health Impact: This is the most common and dominant carbapenemase in the United States and is heavily tracked by the CDC.
-
-2. NDM (New Delhi Metallo-β-lactamase)
-Class: Metallo-β-lactamase (Class B - Requires Zinc to function)
-
-The Background: First identified in 2008 in a patient returning from India.
-
-Public Health Impact: Highly feared globally because NDM-producing bacteria are often resistant to almost every known antibiotic, leaving doctors with virtually no treatment options.
-
-3. VIM (Verona Integron-encoded Metallo-β-lactamase)
-Class: Metallo-β-lactamase (Class B)
-
-The Background: First discovered in Italy in Pseudomonas aeruginosa.
-
-Public Health Impact: Because it lives on an "integron" (the genetic Velcro we discussed earlier), VIM is almost always bundled with a massive payload of other resistance genes.
-
-4. IMP (Imipenemase)
-Class: Metallo-β-lactamase (Class B)
-
-The Background: Originally emerged in Japan in the 1990s.
-
-Public Health Impact: Like VIM, it is heavily associated with Pseudomonas and Acinetobacter species, which are notorious for causing untreatable ventilator-associated pneumonia in ICUs.
-
-5. OXA-48-like (Oxacillinase)
-Class: Class D Carbapenemase
-
-The Background: Originally found in Turkey. It is called "OXA-48-like" because there are several closely related variants (like OXA-181 or OXA-232).
-
-Public Health Impact: This one is a bioinformatic and clinical headache. It is notoriously difficult to detect with traditional wet-lab tests because it only weakly hydrolyzes carbapenems, meaning the bacteria might falsely look "susceptible" in a petri dish. Genomic tools like abricate are crucial for catching it.
-
-When we run abricate against the NCBI or CARD database, we get a list of genes. But as public health professionals, we aren't just looking for random resistance; we are hunting for the 'Big Five'—KPC, NDM, VIM, IMP, and OXA-48. If our code outputs a line showing 100% coverage for blaNDM-1, we immediately know we have a critical public health emergency on our hands, and infection control protocols need to be activated.
-
-## Starting from FASTQ or FASTA files
-
-FASTQ : often faster, less processing
-FASTA : can perform poorly when two similar genes are in the same isolate
-
-## Using ABRICATE
-
-Abricate: The Rapid AMR Gene Hunter
-Abricate is a highly efficient bioinformatics tool designed to mass-screen assembled bacterial genomes for acquired antimicrobial resistance and virulence genes. Think of it as a high-speed search engine for your genomic data: it uses DNA-to-DNA comparison (BLASTN) to rapidly scan your sample's contigs against massive, curated public databases like NCBI, CARD, and ResFinder. Because it focuses specifically on finding "stolen" foreign DNA—such as the resistance genes carried on mobile plasmids—it is incredibly fast and produces a clean, easy-to-read summary table. For a public health bioinformatician, Abricate is the perfect first-pass tool to quickly answer the critical question: "What resistance weapons has this bacteria picked up?"
+### Running ABRicate
 
 ```bash
 # Run the tool and save the output to a TSV file
-abricate --db ncbi klebsiella_isolate.fna > abricate_results.tsv
+abricate --db ncbi *.fna > abricate_results.tsv
 
 # View the results as a clean table
 column -t -s $'\t' abricate_results.tsv
 ```
 
+### Looking at the results
+
 The results should look like this
 ```
 #FILE	SEQUENCE	START	END	STRAND	GENE	COVERAGE	COVERAGE_MAP	GAPS	%COVERAGE	%IDENTITY	DATABASE	ACCESSION	PRODUCT	RESISTANCE
+campylobacter_isolate.fna	ACCXAQ010000001.1	41064	41868	+	blaOXA-605	1-807/807	========/======	1/2	99.75	99.63	ncbi	NG_057542.1	OXA-61 family class D beta-lactamase OXA-605	BETA-LACTAM
+campylobacter_isolate.fna	ACCXAQ010000031.1	1474	2278	+	blaOXA-605	1-807/807	========/======	1/2	99.75	99.63	ncbi	NG_057542.1	OXA-61 family class D beta-lactamase OXA-605	BETA-LACTAM
 klebsiella_isolate.fna	NZ_CP025080.1	1174411	1177563	-	oqxB12	1-3153/3153	===============	0/0	100.00	99.46	ncbi	NG_050430.1	multidrug efflux RND transporter permease subunit OqxB12	PHENICOL;QUINOLONE
 klebsiella_isolate.fna	NZ_CP025080.1	1177587	1178762	-	oqxA5	1-1176/1176	===============	0/0	100.00	99.66	ncbi	NG_050423.1	multidrug efflux RND transporter periplasmic adaptor subunit OqxA5	PHENICOL;QUINOLONE
 klebsiella_isolate.fna	NZ_CP025080.1	2859578	2860438	+	blaSHV-190	1-861/861	===============	0/0	100.00	99.88	ncbi	NG_050056.1	class A beta-lactamase SHV-190	BETA-LACTAM
 klebsiella_isolate.fna	NZ_CP025080.1	4733494	4733913	-	fosA6	1-420/420	===============	0/0	100.00	98.33	ncbi	NG_051497.1	fosfomycin resistance glutathione transferase FosA6	FOSFOMYCIN
 ```
 
-## Using AMRFINDER
+#### What the columns are
 
-AMRFinderPlus: The Comprehensive Protein Profiler
-Developed by the NCBI, AMRFinderPlus is a highly sophisticated tool that goes a step beyond simple DNA matching. Instead of just looking for matching nucleotide sequences, it translates your genomic data into proteins and uses advanced Hidden Markov Models (HMMs) to identify resistance mechanisms. This makes it incredibly powerful because it can detect both acquired foreign genes (just like Abricate) and chromosomal point mutations—the tiny evolutionary "typos" in housekeeping genes that cause resistance to drugs like fluoroquinolones. Backed by NCBI's strictly curated National Database of Antibiotic Resistant Organisms (NDARO), AMRFinderPlus is considered the gold standard for public health reporting, providing a deep, highly accurate, and reliable profile of a pathogen's complete resistance capabilities.
+The tabular output enables a granular assessment of the genomic context and confidence intervals for each identified locus:
+
+* SEQUENCE / START / END: Specify the topological coordinates of the hit within the assembly. 
+* GENE / PRODUCT: Define the specific allelic variant and its associated biochemical function.
+* %COVERAGE / COVERAGE_MAP: Represent the proportion of the reference gene identified in the query sequence. A 100% value signifies a full-length coding sequence. Lower values may indicate truncated alleles or assembly discontinuities at gene boundaries.
+* %IDENTITY: The percentage of identical nucleotides across the alignment. High identity (>98%) suggests a high-confidence ortholog, while lower values may indicate novel allelic variants or sequencing artifacts.
+* RESISTANCE: The predicted phenotypic resistance profile associated with the identified genotype.
+
+#### Interpretation
+
+Campylobacter jejuni harbors bla_OXA-605, an OXA-61 family Class D beta-lactamase. The detection of this locus on two distinct sequences (ACCXAQ010000001.1 and ACCXAQ010000031.1) suggests either gene duplication or the presence of multiple copies across the accessory genome.
+
+The profile of the Klebsiella pneumoniae indicates a multidrug-resistant (MDR) genotype: oqxA5 / oqxB12, bla_SHV-190, and fosA6.
+
+## Using AMRFinderPlus
+
+Developed by the NCBI, [AMRFinderPlus](https://hub.docker.com/r/staphb/ncbi-amrfinderplus) is a highly sophisticated tool that goes a step beyond simple DNA matching. Instead of just looking for matching nucleotide sequences, it translates genomic data into proteins and uses advanced Hidden Markov Models (HMMs) to identify resistance mechanisms. This makes it incredibly powerful because it can detect both acquired foreign genes (just like Abricate) and chromosomal point mutations.
+
+### Listing available organisms
+
+AMRFinderPlus has the power to identify point mutations, but it resistricts this option to certain organisms. To get those results, use the `--organism` flag.
+
 
 ```bash
-# Run the tool and specify the organism type (-O Klebsiella_pneumoniae) for better mutation detection
-amrfinder -n klebsiella_isolate.fna -O Klebsiella_pneumoniae --plus > amrfinder_results.tsv
+amrfinder --list_organisms
+```
+
+The output from this should be something like the following:
+
+```
+Running: amrfinder --list_organisms
+The number of threads cannot be greater than 2 on this computer
+The current number of threads is 4, reducing to 2
+Software directory: /amrfinder/
+Software version: 4.2.7
+Database directory: /amrfinder/data/2026-03-24.1
+Database version: 2026-03-24.1
+amrfinder took 0 seconds to complete
+
+Available --organism options: Acinetobacter_baumannii, Bordetella_pertussis, Burkholderia_cepacia, Burkholderia_mallei, Burkholderia_pseudomallei, Campylobacter, Citrobacter_freundii, Clostridioides_difficile, Corynebacterium_diphtheriae, Enterobacter_asburiae, Enterobacter_cloacae, Enterococcus_faecalis, Enterococcus_faecium, Escherichia, Haemophilus_influenzae, Helicobacter_pylori, Klebsiella_oxytoca, Klebsiella_pneumoniae, Neisseria_gonorrhoeae, Neisseria_meningitidis, Pseudomonas_aeruginosa, Salmonella, Serratia_marcescens, Staphylococcus_aureus, Staphylococcus_epidermidis, Staphylococcus_pseudintermedius, Streptococcus_agalactiae, Streptococcus_pneumoniae, Streptococcus_pyogenes, Vibrio_cholerae, Vibrio_parahaemolyticus, Vibrio_vulnificus
+```
+
+We are going to use the "Campylobacter" and "Klebsiella_pneumoniae" on our respective samples.
+
+### Running on the Klebsiella test file
+
+```bash
+# Run the tool and specify the organism type
+amrfinder -n klebsiella_isolate.fna -O Klebsiella_pneumoniae --plus > klebsiella_amrfinder_results.tsv
 
 # View the results
-column -t -s $'\t' amrfinder_results.tsv
+column -t -s $'\t' klebsiella_amrfinder_results.tsv
 ```
 
 The results should look like this
@@ -509,48 +292,56 @@ NA	NZ_CP025081.1	179659	180111	-	terB	tellurium resistance membrane protein TerB
 NA	NZ_CP025081.1	180137	181285	-	terA	tellurium resistance system protein TerA	plus	STRESS	METAL	NA	NA	BLASTX	383	383	100.00	97.39	383	AHE47495.1	tellurium resistance system protein TerA	NA	NA
 ```
 
-## Summary of AMR Screening Results
+#### What the columns are
 
-Our *Klebsiella pneumoniae* isolate was screened using two different tools to demonstrate how bioinformatic search algorithms affect public health reporting.
+The tabular output of AMRFinderPlus is similar to ABRicate, but includes additional information:
 
-### 1. Abricate Results (The "Gene Hunter")
-Abricate quickly scanned the isolate against the NCBI database using nucleotide alignment (DNA-to-DNA). It identified four acquired resistance genes located on the primary sequence (`NZ_CP025080.1`).
+* Scope (Core vs. Plus): 
+    * Core: Targets curated from the National Database of Antibiotic Resistant Organisms (NDARO), representing high-confidence AMR determinants.
+    * Plus: Supplemental targets including virulence factors, biocide resistance, and heavy metal stress response genes.
+* Method (Algorithm):
+    * EXACTX / ALLELEX: Indicates a 100% match to a known protein sequence or a defined allele variant.
+    * BLASTX: Indicates homology based on protein translation, facilitating the detection of divergent orthologs.
+    * HMM: Identification via Hidden Markov Models; essential for resolving members of diverse protein families (e.g., efflux pumps) that share structural domains despite low sequence identity.
+    * POINTX: Targeted detection of known resistance-conferring point mutations (SNPs).
+* Type / Subtype: Categorizes elements into AMR, VIRULENCE, or STRESS.
 
-| Gene | Resistance Profile | Coverage | Identity |
-| :--- | :--- | :--- | :--- |
-| **`oqxB12`** | Phenicol; Quinolone (Efflux Pump) | 100% | 99.46% |
-| **`oqxA5`** | Phenicol; Quinolone (Efflux Pump) | 100% | 99.66% |
-| **`blaSHV-190`** | Beta-Lactam (Penicillins/Cephalosporins) | 100% | 99.88% |
-| **`fosA6`** | Fosfomycin | 100% | 98.33% |
+### Running on the Campylobacter test file
 
-**Key Takeaway:** Abricate gives us a rapid, accurate baseline of the foreign AMR genes this bacteria has acquired. However, it completely ignores anything that isn't a known, whole acquired gene.
+Now running on the Campylobater
 
----
+```bash
+# Run the tool and specify the organism type
+amrfinder -n campylobacter_isolate.fna  -O Campylobacter --plus > campylobacter_amrfinder_results.tsv
 
-### 2. AMRFinderPlus Results (The "Protein Profiler")
-By translating the DNA into proteins and utilizing the `--plus` flag, AMRFinderPlus provided a vastly more comprehensive profile, yielding over 20 hits across two different genomic sequences.
+# View the results
+column -t -s $'\t' campylobacter_amrfinder_results.tsv
+```
 
-#### Core AMR & The "Hidden" Mutation
-AMRFinderPlus found the same general acquired genes as Abricate (`oqx`, `blaSHV`, `fosA`), but it also found something critical that Abricate missed:
+The results should look like this:
+```
+Protein id	Contig id	Start	Stop	Strand	Element symbol	Element name	Scope	Type	Subtype	Class	Subclass	Method	Target length	Reference sequence length	% Coverage of reference	% Identity to reference	Alignment length	Closest reference accession	Closest reference name	HMM accession	HMM description
+NA	ACCXAQ010000001.1	41064	41834	+	blaOXA-193	OXA-61 family class D beta-lactamase OXA-193	core	AMR	AMR	BETA-LACTAM	BETA-LACTAM	ALLELEX	257	257	100.00	100.00	257	WP_002783228.1	OXA-61 family class D beta-lactamase OXA-193	NA	NA
+NA	ACCXAQ010000009.1	1763	2707	-	arsP	organoarsenical efflux permease ArsP	plus	STRESS	METAL	ARSENIC	ORGANOARSENIC	INTERNAL_STOP	315	315	100.00	95.24	315	ACG76368.1	organoarsenical efflux permease ArsP	NA	NA
+NA	ACCXAQ010000031.1	1474	2244	+	blaOXA-193	OXA-61 family class D beta-lactamase OXA-193	core	AMR	AMR	BETA-LACTAM	BETA-LACTAM	ALLELEX	257	257	100.00	100.00	257	WP_002783228.1	OXA-61 family class D beta-lactamase OXA-193	NA	NA
+```
 
-* **`cirA_L58Ter` (POINT_DISRUPT):** A point mutation created a premature stop codon, breaking the `cirA` gene. This specific broken receptor confers resistance to **Cefiderocol**, a last-resort antibiotic. *Because Abricate only looks for whole acquired genes, it is blind to broken ones!*
+#### Interpretation
 
-#### The "Plus" Features: Plasmids, Metals, and Virulence
-AMRFinderPlus revealed that this isolate has two distinct DNA sequences: a chromosome (`NZ_CP025080.1`) and a massive plasmid (`NZ_CP025081.1`). This plasmid is loaded with stress and virulence factors that make this bacteria incredibly dangerous in a hospital environment.
-
+The Campylobacter isolate is expected to carry blaOXA-193 and arsP.
 
 
-| Category | Genes Identified | Clinical / Public Health Impact |
+## Methodological Comparison
+
+| Feature | ABRicate (Nucleotide Alignment) | AMRFinderPlus (Protein/HMM) |
 | :--- | :--- | :--- |
-| **Heavy Metals** | `silA-P` (Silver), `pcoA-S` (Copper), `terA-E` (Tellurium) | Bacteria can survive on hospital surfaces, resisting copper fixtures and silver-lined catheters. |
-| **Hyper-Virulence** | `rmpA`, `rmpC`, `rmpD` | Creates a thick, "mucoid" capsule that protects the bacteria from the patient's immune system. |
-| **Iron Scavenging** | `iucA-D`, `iroB-N`, `ybtP-Q` | Siderophores allow the bacteria to steal iron directly from the human host's blood to fuel its own rapid growth. |
+| Detection Logic | BLASTN (DNA-to-DNA) | BLASTX/HMM (Protein-to-Protein) |
+| Klebsiella AMR | Identified oqxAB, bla_SHV-190, fosA6 | Identified oqxAB, bla_SHV-11, fosA5, plus cirA_L58Ter |
+| Campylobacter AMR | Identified bla_OXA-605 | Identified bla_OXA-193 |
+| Accessory Traits | Limited to screened AMR databases | Identified heavy metal (sil, pco, ter) and virulence (rmp, iut) |
 
----
+### Mechanistic Discrepancies and Biological Implications
 
-### The Final Verdict for Public Health
-If we relied solely on Abricate, we would report a standard multidrug-resistant *Klebsiella*. By using **AMRFinderPlus**, we uncovered a broken gene causing resistance to a last-resort drug, *plus* a massive survival plasmid carrying heavy metal resistance and hyper-virulent capsule genes. 
+The discrepancy between the two tools is most evident in the detection of non-functional or truncated determinants. In the Klebsiella isolate, ABRicate identifies the presence of the cirA locus; however, AMRFinderPlus identifies a POINT_DISRUPT event (cirA_L58Ter). This premature stop codon renders the catecholate siderophore receptor non-functional. ABRicate, relying solely on nucleotide identity, lacks the translational logic required to flag this as a resistance marker.
 
-**Genomic context and tool selection completely change the clinical picture!**
-
-## Appendix: Deep Dive Concepts
+In the Campylobacter isolate, the variation in allelic nomenclature, bla_OXA-605 versus bla_OXA-193, is a result of differing versioning and curation between the NCBI and ABRicate’s database snapshots. Notably, AMRFinderPlus identified an internal stop codon in the arsP permease (95.24% identity), demonstrating sensitivity to pseudogene formation that simple DNA alignment often overlooks. For the bioinformatician, these results emphasize that while ABRicate provides a rapid "first-pass" screen, AMRFinderPlus is required to resolve the translational reality of the bacterial resistome.
