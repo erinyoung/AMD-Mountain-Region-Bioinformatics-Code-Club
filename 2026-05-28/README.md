@@ -18,7 +18,7 @@ By the end of this 30-minute code-along, participants will be able to:
 * Darby EM, Trampari E, Siasat P, Gaya MS, Alav I, Webber MA, Blair JMA. Molecular mechanisms of antibiotic resistance revisited. Nat Rev Microbiol. 2023 May;21(5):280-295. doi: 10.1038/s41579-022-00820-y. Epub 2022 Nov 21. Erratum in: Nat Rev Microbiol. 2024 Apr;22(4):255. doi: 10.1038/s41579-024-01014-4. PMID: 36411397.
 * [abricate](https://github.com/tseemann/abricate)
 * Feldgarden M, Brover V, Gonzalez-Escalona N, Frye JG, Haendiges J, Haft DH, Hoffmann M, Pettengill JB, Prasad AB, Tillman GE, Tyson GH, Klimke W. AMRFinderPlus and the Reference Gene Catalog facilitate examination of the genomic links among antimicrobial resistance, stress response, and virulence. Sci Rep. 2021 Jun 16;11(1):12728. doi: 10.1038/s41598-021-91456-0. PMID: 34135355; PMCID: PMC8208984. https://github.com/ncbi/amr
-
+* Inda-Díaz, Juan Salvador, et al. "The Elusive Resistome: A Global Comparison Reveals Large Discrepancies Among Detection Pipelines." bioRxiv, 11 May 2026, https://doi.org/10.64898/2026.05.11.724158.
 
 ## Tool Installation
  
