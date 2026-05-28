@@ -41,20 +41,20 @@ alias amrfinder='docker run --rm -v "$(pwd):/data" -w /data staphb/ncbi-amrfinde
 ## Download some test files
 
 We are going to download files for two organisms:
-* _Klebsiella pneumoniae_: [GCF_002813595.1](https://www.ncbi.nlm.nih.gov/datasets/genome/GCF_002813595.1/)
+* _Klebsiella pneumoniae_: [GCA_040456195.1](https://www.ncbi.nlm.nih.gov/datasets/genome/GCA_040456195.1/)
 * _Campylobacter jejuni_: [GCA_056635755.1](https://www.ncbi.nlm.nih.gov/datasets/genome/GCA_056635755.1/)
 
 ### Downloading the Klebsiella test file
 
 ```bash
 # Download the zipped assembly file from NCBI
-wget https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/002/813/ 595/GCF_002813595.1_ASM281359v1/GCF_002813595.1_ASM281359v1_genomic.fna.gz
+wget https://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/040/456/195/GCA_040456195.1_PDT002238574.1/GCA_040456195.1_PDT002238574.1_genomic.fna.gz
 
 # Decompress the file so our tools can read it
-gunzip GCF_002813595.1_ASM281359v1_genomic.fna.gz
+gunzip GCA_040456195.1_PDT002238574.1_genomic.fna.gz
 
 # Rename the file to something simple
-mv GCF_002813595.1_ASM281359v1_genomic.fna klebsiella_isolate.fna
+mv GCA_040456195.1_PDT002238574.1_genomic.fna klebsiella_isolate.fna
 ```
 ### Downloading the Campylobacter test file
 ```bash
@@ -182,10 +182,38 @@ The results should look like this
 #FILE	SEQUENCE	START	END	STRAND	GENE	COVERAGE	COVERAGE_MAP	GAPS	%COVERAGE	%IDENTITY	DATABASE	ACCESSION	PRODUCT	RESISTANCE
 campylobacter_isolate.fna	ACCXAQ010000001.1	41064	41868	+	blaOXA-605	1-807/807	========/======	1/2	99.75	99.63	ncbi	NG_057542.1	OXA-61 family class D beta-lactamase OXA-605	BETA-LACTAM
 campylobacter_isolate.fna	ACCXAQ010000031.1	1474	2278	+	blaOXA-605	1-807/807	========/======	1/2	99.75	99.63	ncbi	NG_057542.1	OXA-61 family class D beta-lactamase OXA-605	BETA-LACTAM
-klebsiella_isolate.fna	NZ_CP025080.1	1174411	1177563	-	oqxB12	1-3153/3153	===============	0/0	100.00	99.46	ncbi	NG_050430.1	multidrug efflux RND transporter permease subunit OqxB12	PHENICOL;QUINOLONE
-klebsiella_isolate.fna	NZ_CP025080.1	1177587	1178762	-	oqxA5	1-1176/1176	===============	0/0	100.00	99.66	ncbi	NG_050423.1	multidrug efflux RND transporter periplasmic adaptor subunit OqxA5	PHENICOL;QUINOLONE
-klebsiella_isolate.fna	NZ_CP025080.1	2859578	2860438	+	blaSHV-190	1-861/861	===============	0/0	100.00	99.88	ncbi	NG_050056.1	class A beta-lactamase SHV-190	BETA-LACTAM
-klebsiella_isolate.fna	NZ_CP025080.1	4733494	4733913	-	fosA6	1-420/420	===============	0/0	100.00	98.33	ncbi	NG_051497.1	fosfomycin resistance glutathione transferase FosA6	FOSFOMYCIN
+klebsiella_isolate.fna	ABTGUD010000002.1	292052	292912	+	blaSHV-110	1-861/861	===============	0/0	100.00	99.88	ncbi	NG_050001.1	class A beta-lactamase SHV-110	BETA-LACTAM
+klebsiella_isolate.fna	ABTGUD010000005.1	35814	36989	+	oqxA11	1-1176/1176	===============	0/0	100.00	99.49	ncbi	NG_050419.1	multidrug efflux RND transporter periplasmic adaptor subunit OqxA11	PHENICOL;QUINOLONE
+klebsiella_isolate.fna	ABTGUD010000005.1	37013	40165	+	oqxB32	1-3153/3153	===============	0/0	100.00	99.43	ncbi	NG_050452.1	multidrug efflux RND transporter permease subunit OqxB32	PHENICOL;QUINOLONE
+klebsiella_isolate.fna	ABTGUD010000008.1	346181	346600	-	fosA5_fam	1-420/420	===============	0/0	100.00	96.43	ncbi	NG_047881.1	FosA5 family fosfomycin resistance glutathione transferase	FOSFOMYCIN
+klebsiella_isolate.fna	ABTGUD010000022.1	3078	3959	+	blaKPC-3	1-882/882	===============	0/0	100.00	100.00	ncbi	NG_049257.1	carbapenem-hydrolyzing class A beta-lactamase KPC-3	CARBAPENEM
+klebsiella_isolate.fna	ABTGUD010000023.1	391	1266	-	blaCTX-M-15	1-876/876	===============	0/0	100.00	100.00	ncbi	NG_048935.1	extended-spectrum class A beta-lactamase CTX-M-15	CEPHALOSPORIN
+klebsiella_isolate.fna	ABTGUD010000023.1	4088	4948	+	blaTEM-1	1-861/861	===============	0/0	100.00	100.00	ncbi	NG_050145.1	broad-spectrum class A beta-lactamase TEM-1	BETA-LACTAM
+klebsiella_isolate.fna	ABTGUD010000023.1	5669	6505	-	aph(6)-Id	1-837/837	===============	0/0	100.00	100.00	ncbi	NG_047464.1	aminoglycoside O-phosphotransferase APH(6)-Id	STREPTOMYCIN
+klebsiella_isolate.fna	ABTGUD010000023.1	6505	7307	-	aph(3'')-Ib	2-804/804	===============	0/0	99.88	99.88	ncbi	NG_047413.1	aminoglycoside O-phosphotransferase APH(3'')-Ib	STREPTOMYCIN
+klebsiella_isolate.fna	ABTGUD010000023.1	7369	8184	-	sul2	1-816/816	===============	0/0	100.00	100.00	ncbi	NG_051852.1	sulfonamide-resistant dihydropteroate synthase Sul2	SULFONAMIDE
+klebsiella_isolate.fna	ABTGUD010000024.1	818	1462	-	qnrB1	1-645/645	===============	0/0	100.00	100.00	ncbi	NG_050469.1	quinolone resistance pentapeptide repeat protein QnrB1	QUINOLONE
+klebsiella_isolate.fna	ABTGUD010000025.1	4601	5074	-	dfrA14	1-474/474	===============	0/0	100.00	100.00	ncbi	NG_056035.1	trimethoprim-resistant dihydrofolate reductase DfrA14	TRIMETHOPRIM
+klebsiella_isolate.fna	ABTGUD010000032.1	1695	2555	-	aac(3)-IIe	1-861/861	===============	0/0	100.00	99.77	ncbi	NG_047244.1	aminoglycoside N-acetyltransferase AAC(3)-IIe	GENTAMICIN
+klebsiella_isolate.fna	ABTGUD010000034.1	578	1408	-	blaOXA-1	1-831/831	===============	0/0	100.00	100.00	ncbi	NG_049392.1	oxacillin-hydrolyzing class D beta-lactamase OXA-1	CEPHALOSPORIN
+klebsiella_isolate.fna	ABTGUD010000034.1	1539	2093	-	aac(6')-Ib-D181Y	1-555/555	===============	0/0	100.00	99.82	ncbi	NG_067946.1	AAC(6')-Ib family aminoglycoside 6'-N-acetyltransferase	AMIKACIN;KANAMYCIN;TOBRAMYCIN
+klebsiella_isolate.fna	ABTGUD010000050.1	3119	4000	+	blaKPC-3	1-882/882	===============	0/0	100.00	100.00	ncbi	NG_049257.1	carbapenem-hydrolyzing class A beta-lactamase KPC-3	CARBAPENEM
+klebsiella_isolate.fna	ABTGUD010000051.1	7111	8286	+	oqxA11	1-1176/1176	===============	0/0	100.00	99.49	ncbi	NG_050419.1	multidrug efflux RND transporter periplasmic adaptor subunit OqxA11	PHENICOL;QUINOLONE
+klebsiella_isolate.fna	ABTGUD010000051.1	8310	11462	+	oqxB32	1-3153/3153	===============	0/0	100.00	99.43	ncbi	NG_050452.1	multidrug efflux RND transporter permease subunit OqxB32	PHENICOL;QUINOLONE
+klebsiella_isolate.fna	ABTGUD010000053.1	216	635	+	fosA5_fam	1-420/420	===============	0/0	100.00	96.43	ncbi	NG_047881.1	FosA5 family fosfomycin resistance glutathione transferase	FOSFOMYCIN
+klebsiella_isolate.fna	ABTGUD010000054.1	6582	7226	+	qnrB1	1-645/645	===============	0/0	100.00	100.00	ncbi	NG_050469.1	quinolone resistance pentapeptide repeat protein QnrB1	QUINOLONE
+klebsiella_isolate.fna	ABTGUD010000056.1	676	1536	+	blaSHV-110	1-861/861	===============	0/0	100.00	99.88	ncbi	NG_050001.1	class A beta-lactamase SHV-110	BETA-LACTAM
+klebsiella_isolate.fna	ABTGUD010000057.1	463	1278	+	sul2	1-816/816	===============	0/0	100.00	100.00	ncbi	NG_051852.1	sulfonamide-resistant dihydropteroate synthase Sul2	SULFONAMIDE
+klebsiella_isolate.fna	ABTGUD010000057.1	1340	2142	+	aph(3'')-Ib	2-804/804	===============	0/0	99.88	99.88	ncbi	NG_047413.1	aminoglycoside O-phosphotransferase APH(3'')-Ib	STREPTOMYCIN
+klebsiella_isolate.fna	ABTGUD010000057.1	2142	2978	+	aph(6)-Id	1-837/837	===============	0/0	100.00	100.00	ncbi	NG_047464.1	aminoglycoside O-phosphotransferase APH(6)-Id	STREPTOMYCIN
+klebsiella_isolate.fna	ABTGUD010000058.1	1745	2620	+	blaCTX-M-15	1-876/876	===============	0/0	100.00	100.00	ncbi	NG_048935.1	extended-spectrum class A beta-lactamase CTX-M-15	CEPHALOSPORIN
+klebsiella_isolate.fna	ABTGUD010000059.1	1690	2163	+	dfrA14	1-474/474	===============	0/0	100.00	100.00	ncbi	NG_056035.1	trimethoprim-resistant dihydrofolate reductase DfrA14	TRIMETHOPRIM
+klebsiella_isolate.fna	ABTGUD010000060.1	84	944	+	aac(3)-IIe	1-861/861	===============	0/0	100.00	99.77	ncbi	NG_047244.1	aminoglycoside N-acetyltransferase AAC(3)-IIe	GENTAMICIN
+klebsiella_isolate.fna	ABTGUD010000061.1	84	944	+	aac(3)-IIe	1-861/861	===============	0/0	100.00	99.30	ncbi	NG_047244.1	aminoglycoside N-acetyltransferase AAC(3)-IIe	GENTAMICIN
+klebsiella_isolate.fna	ABTGUD010000062.1	84	944	+	aac(3)-IIe	1-861/861	===============	0/0	100.00	99.42	ncbi	NG_047244.1	aminoglycoside N-acetyltransferase AAC(3)-IIe	GENTAMICIN
+klebsiella_isolate.fna	ABTGUD010000063.1	130	684	+	aac(6')-Ib-D181Y	1-555/555	===============	0/0	100.00	99.82	ncbi	NG_067946.1	AAC(6')-Ib family aminoglycoside 6'-N-acetyltransferase	AMIKACIN;KANAMYCIN;TOBRAMYCIN
+klebsiella_isolate.fna	ABTGUD010000063.1	815	1645	+	blaOXA-1	1-831/831	===============	0/0	100.00	100.00	ncbi	NG_049392.1	oxacillin-hydrolyzing class D beta-lactamase OXA-1	CEPHALOSPORIN
+klebsiella_isolate.fna	ABTGUD010000064.1	1025	1885	+	blaTEM-1	1-861/861	===============	0/0	100.00	100.00	ncbi	NG_050145.1	broad-spectrum class A beta-lactamase TEM-1	BETA-LACTAM
 ```
 
 #### What the columns are
@@ -200,9 +228,9 @@ The tabular output enables a granular assessment of the genomic context and conf
 
 #### Interpretation
 
-Campylobacter jejuni harbors bla_OXA-605, an OXA-61 family Class D beta-lactamase. The detection of this locus on two distinct sequences (ACCXAQ010000001.1 and ACCXAQ010000031.1) suggests either gene duplication or the presence of multiple copies across the accessory genome.
+The _Campylobacter jejuni_ harbors bla_OXA-605, an OXA-61 family Class D beta-lactamase. The detection of this locus on two distinct sequences (ACCXAQ010000001.1 and ACCXAQ010000031.1) suggests either gene duplication or the presence of multiple copies across the accessory genome.
 
-The profile of the Klebsiella pneumoniae indicates a multidrug-resistant (MDR) genotype: oqxA5 / oqxB12, bla_SHV-190, and fosA6.
+The _Klebsiella pneumoniae_ indicates a critical, highly alarming multi-drug resistant (MDR) and carbapenem-resistant genotype. Crucially, it harbors blaKPC-3, a major public health priority marker confirming carbapenem resistance. Additionally, it displays an extensive resistance cassette targeting cephalosporins (blaCTX-M-15, blaOXA-1), fluoroquinolones/phenicols (oqxAB, qnrB1), aminoglycosides (aac(3)-IIe, aac(6')-Ib-D181Y), fosfomycin (fosA5_fam), sulfonamides (sul2), and trimethoprim (dfrA14).
 
 ## Using AMRFinderPlus
 
@@ -248,48 +276,64 @@ The results should look like this
 
 ```
 Protein id	Contig id	Start	Stop	Strand	Element symbol	Element name	Scope	Type	Subtype	Class	Subclass	Method	Target length	Reference sequence length	% Coverage of reference	% Identity to reference	Alignment length	Closest reference accession	Closest reference name	HMM accession	HMM description
-NA	NZ_CP025080.1	29523	30704	-	emrD	multidrug efflux MFS transporter EmrD	plus	AMR	AMR	EFFLUX	EFFLUX	BLASTX	394	394	100.00	99.49	394	ACN65732.1	multidrug efflux MFS transporter EmrD	NA	NA
-NA	NZ_CP025080.1	1174414	1177563	-	oqxB19	multidrug efflux RND transporter permease subunit OqxB19	core	AMR	AMR	PHENICOL/QUINOLONE	PHENICOL/QUINOLONE	ALLELEX	1050	1050	100.00	100.00	1050	WP_004149399.1	multidrug efflux RND transporter permease subunit OqxB19	NA	NA
-NA	NZ_CP025080.1	1177590	1178762	-	oqxA	multidrug efflux RND transporter periplasmic adaptor subunit OqxA	core	AMR	AMR	NITROFURAN/PHENICOL/QUINOLONE/TETRACYCLINE	NITROFURANTOIN/PHENICOL/QUINOLONE/TIGECYCLINE	EXACTX	391	391	100.00	100.00	391	WP_002914189.1	multidrug efflux RND transporter periplasmic adaptor subunit OqxA	NA	NA
-NA	NZ_CP025080.1	1603564	1605534	+	cirA_L58Ter	Klebsiella pneumoniae cefiderocol resistant CirA	core	AMR	POINT_DISRUPT	BETA-LACTAM	CEFIDEROCOL	POINTX	657	657	100.00	99.70	657	WP_002912926.1	catecholate siderophore receptor CirA	NA	NA
-NA	NZ_CP025080.1	1786275	1795892	+	clbB	colibactin hybrid non-ribosomal peptide synthetase/type I polyketide synthase ClbB	plus	VIRULENCE	VIRULENCE	NA	NA	BLASTX	3206	3206	100.00	99.97	3206	AMQ58400.1	colibactin hybrid non-ribosomal peptide synthetase/type I polyketide synthase ClbB	NA	NA
-NA	NZ_CP025080.1	1825991	1830355	+	clbN	colibactin non-ribosomal peptide synthetase ClbN	plus	VIRULENCE	VIRULENCE	NA	NA	EXACTX	1455	1455	100.00	100.00	1455	AMH08480.1	colibactin non-ribosomal peptide synthetase ClbN	NA	NA
-NA	NZ_CP025080.1	1878623	1880422	+	ybtP	yersiniabactin ABC transporter ATP-binding/permease protein YbtP	plus	VIRULENCE	VIRULENCE	NA	NA	BLASTX	600	600	100.00	98.83	600	CAA21388.1	yersiniabactin ABC transporter ATP-binding/permease protein YbtP	NA	NA
-NA	NZ_CP025080.1	1880412	1882211	+	ybtQ	yersiniabactin ABC transporter ATP-binding/permease protein YbtQ	plus	VIRULENCE	VIRULENCE	NA	NA	BLASTX	600	600	100.00	99.00	600	AAC69584.1	yersiniabactin ABC transporter ATP-binding/permease protein YbtQ	NA	NA
-NA	NZ_CP025080.1	1933749	1935842	+	mchF	microcin H47 export transporter peptidase/ATP-binding subunit MchF	plus	VIRULENCE	VIRULENCE	NA	NA	EXACTX	698	698	100.00	100.00	698	AAL08400.1	microcin H47 export transporter peptidase/ATP-binding subunit MchF	NA	NA
-NA	NZ_CP025080.1	2859578	2860435	+	blaSHV-11	broad-spectrum class A beta-lactamase SHV-11	core	AMR	AMR	BETA-LACTAM	BETA-LACTAM	ALLELEX	286	286	100.00	100.00	286	WP_004176269.1	broad-spectrum class A beta-lactamase SHV-11	NA	NA
-NA	NZ_CP025080.1	4733497	4733913	-	fosA	FosA5 family fosfomycin resistance glutathione transferase	core	AMR	AMR	FOSFOMYCIN	FOSFOMYCIN	EXACTX	139	139	100.00	100.00	139	WP_004146118.1	FosA5 family fosfomycin resistance glutathione transferase	NA	NA
-NA	NZ_CP025080.1	5370063	5370962	-	fieF	CDF family cation-efflux transporter FieF	plus	STRESS	METAL	NA	NA	EXACTX	300	300	100.00	100.00	300	BAB89353.1	CDF family cation-efflux transporter FieF	NA	NA
-NA	NZ_CP025081.1	23982	25454	-	silS	copper/silver sensor histidine kinase SilS	plus	STRESS	METAL	COPPER/SILVER	COPPER/SILVER	BLASTX	491	491	100.00	98.98	491	SPD96882.1	copper/silver sensor histidine kinase SilS	NA	NA
-NA	NZ_CP025081.1	25450	26127	-	silR	copper/silver response regulator transcription factor SilR	plus	STRESS	METAL	COPPER/SILVER	COPPER/SILVER	BLASTX	226	226	100.00	97.35	226	SPD96883.1	copper/silver response regulator transcription factor SilR	NA	NA
-NA	NZ_CP025081.1	26317	27699	+	silC	Cu(+)/Ag(+) efflux RND transporter outer membrane channel SilC	plus	STRESS	METAL	COPPER/SILVER	COPPER/SILVER	BLASTX	461	461	100.00	99.35	461	SPD96884.1	Cu(+)/Ag(+) efflux RND transporter outer membrane channel SilC	NA	NA
-NA	NZ_CP025081.1	27731	28090	+	silF	Cu(+)/Ag(+) efflux RND transporter periplasmic metallochaperone SilF	plus	STRESS	METAL	COPPER/SILVER	COPPER/SILVER	BLASTX	120	117	100.00	94.17	120	KGL71342.1	Cu(+)/Ag(+) efflux RND transporter periplasmic metallochaperone SilF	NA	NA
-NA	NZ_CP025081.1	28207	29496	+	silB	Cu(+)/Ag(+) efflux RND transporter periplasmic adaptor subunit SilB	plus	STRESS	METAL	COPPER/SILVER	COPPER/SILVER	BLASTX	430	430	100.00	98.14	430	AAD11748.1	Cu(+)/Ag(+) efflux RND transporter periplasmic adaptor subunit SilB	NA	NA
-NA	NZ_CP025081.1	29510	32653	+	silA	Cu(+)/Ag(+) efflux RND transporter permease subunit SilA	plus	STRESS	METAL	COPPER/SILVER	COPPER/SILVER	BLASTX	1048	1048	100.00	98.85	1048	AAD11749.1	Cu(+)/Ag(+) efflux RND transporter permease subunit SilA	NA	NA
-NA	NZ_CP025081.1	33289	35754	+	silP	Ag(+)-translocating P-type ATPase SilP	plus	STRESS	METAL	SILVER	SILVER	BLASTX	822	824	99.64	94.53	823	AAD11750.1	Ag(+)-translocating P-type ATPase SilP	NA	NA
-NA	NZ_CP025081.1	37738	39552	+	pcoA	multicopper oxidase PcoA	plus	STRESS	METAL	COPPER	COPPER	BLASTX	605	605	100.00	99.83	605	CAA58525.1	multicopper oxidase PcoA	NA	NA
-NA	NZ_CP025081.1	39561	40448	+	pcoB	copper-binding protein PcoB	plus	STRESS	METAL	COPPER	COPPER	BLASTX	296	296	100.00	99.66	296	CAA58526.1	copper-binding protein PcoB	NA	NA
-NA	NZ_CP025081.1	40491	40868	+	pcoC	copper resistance system metallochaperone PcoC	plus	STRESS	METAL	COPPER	COPPER	EXACTX	126	126	100.00	100.00	126	CAA58527.1	copper resistance system metallochaperone PcoC	NA	NA
-NA	NZ_CP025081.1	40876	41802	+	pcoD	copper resistance inner membrane protein PcoD	plus	STRESS	METAL	COPPER	COPPER	BLASTX	309	309	100.00	99.35	309	CAA58528.1	copper resistance inner membrane protein PcoD	NA	NA
-NA	NZ_CP025081.1	41860	42537	+	pcoR	copper response regulator transcription factor PcoR	plus	STRESS	METAL	COPPER	COPPER	EXACTX	226	226	100.00	100.00	226	CAA58529.1	copper response regulator transcription factor PcoR	NA	NA
-NA	NZ_CP025081.1	42537	43934	+	pcoS	copper resistance membrane spanning protein PcoS	plus	STRESS	METAL	COPPER	COPPER	BLASTX	466	466	100.00	99.14	466	CAA58530.1	copper resistance membrane spanning protein PcoS	NA	NA
-NA	NZ_CP025081.1	112378	113490	+	iroB	salmochelin biosynthesis C-glycosyltransferase IroB	plus	VIRULENCE	VIRULENCE	NA	NA	BLASTX	371	371	100.00	90.30	371	EOW04219.1	salmochelin biosynthesis C-glycosyltransferase IroB	NA	NA
-NA	NZ_CP025081.1	113636	117271	+	iroC	salmochelin/enterobactin export ABC transporter IroC	plus	VIRULENCE	VIRULENCE	NA	NA	BLASTX	1212	1219	99.51	89.04	1213	AUH19662.1	salmochelin/enterobactin export ABC transporter IroC	NA	NA
-NA	NZ_CP025081.1	117385	118611	+	iroD	catecholate siderophore esterase IroD	plus	VIRULENCE	VIRULENCE	NA	NA	BLASTX	409	409	100.00	98.78	409	AVE24993.1	catecholate siderophore esterase IroD	NA	NA
-NA	NZ_CP025081.1	119074	121245	+	iroN	siderophore salmochelin receptor IroN	plus	VIRULENCE	VIRULENCE	NA	NA	EXACTX	724	724	100.00	100.00	724	BAH65949.1	siderophore salmochelin receptor IroN	NA	NA
-NA	NZ_CP025081.1	121677	122576	-	peg-344	DMT family inner membrane transporter PEG344	plus	VIRULENCE	VIRULENCE	NA	NA	EXACTX	300	300	100.00	100.00	300	BAH65947.1	DMT family inner membrane transporter PEG344	NA	NA
-NA	NZ_CP025081.1	122652	123050	-	rmpC	mucoid phenotype regulator RmpC	plus	VIRULENCE	VIRULENCE	NA	NA	BLASTX	133	133	100.00	90.23	133	AIK83625.1	mucoid phenotype regulator RmpC	NA	NA
-NA	NZ_CP025081.1	123406	123525	-	rmpD	mucoid phenotype synthesis protein RmpD	plus	VIRULENCE	VIRULENCE	NA	NA	EXACTX	40	40	100.00	100.00	40	QIK04195.1	mucoid phenotype synthesis protein RmpD	NA	NA
-NA	NZ_CP025081.1	123584	124213	-	rmpA	mucoid phenotype regulator RmpA	plus	VIRULENCE	VIRULENCE	NA	NA	EXACTX	210	210	100.00	100.00	210	AMA27886.1	mucoid phenotype regulator RmpA	NA	NA
-NA	NZ_CP025081.1	141346	143064	+	iucA	aerobactin synthase IucA	plus	VIRULENCE	VIRULENCE	NA	NA	BLASTX	573	576	99.83	90.09	575	EGI25746.1	aerobactin synthase IucA	NA	NA
-NA	NZ_CP025081.1	143071	144015	+	iucB	N(6)-hydroxylysine O-acetyltransferase IucB	plus	VIRULENCE	VIRULENCE	NA	NA	BLASTX	315	315	100.00	94.60	315	AAN82074.1	N(6)-hydroxylysine O-acetyltransferase IucB	NA	NA
-NA	NZ_CP025081.1	144018	145748	+	iucC	NIS family aerobactin synthetase IucC	plus	VIRULENCE	VIRULENCE	NA	NA	BLASTX	577	580	99.48	92.72	577	AAN82073.1	NIS family aerobactin synthetase IucC	NA	NA
-NA	NZ_CP025081.1	147126	149312	+	iutA	ferric aerobactin receptor IutA	plus	VIRULENCE	VIRULENCE	NA	NA	BLASTX	729	731	99.73	89.57	729	AAN45165.2	ferric aerobactin receptor IutA	NA	NA
-NA	NZ_CP025081.1	177316	177888	-	terE	tellurium resistance cAMP binding protein TerE	plus	STRESS	METAL	TELLURIUM	TELLURIUM	BLASTX	191	191	100.00	98.95	191	AAA98293.1	tellurium resistance cAMP binding protein TerE	NA	NA
-NA	NZ_CP025081.1	177978	178553	-	terD	tellurium resistance membrane protein TerD	plus	STRESS	METAL	TELLURIUM	TELLURIUM	BLASTX	192	192	100.00	98.96	192	AAA98292.1	tellurium resistance membrane protein TerD	NA	NA
-NA	NZ_CP025081.1	178595	179632	-	terC	tellurium resistance membrane protein TerC	plus	STRESS	METAL	TELLURIUM	TELLURIUM	BLASTX	346	346	100.00	99.13	346	AAA98291.1	tellurium resistance membrane protein TerC	NA	NA
-NA	NZ_CP025081.1	179659	180111	-	terB	tellurium resistance membrane protein TerB	plus	STRESS	METAL	TELLURIUM	TELLURIUM	EXACTX	151	151	100.00	100.00	151	ACI12150.1	tellurium resistance membrane protein TerB	NA	NA
-NA	NZ_CP025081.1	180137	181285	-	terA	tellurium resistance system protein TerA	plus	STRESS	METAL	NA	NA	BLASTX	383	383	100.00	97.39	383	AHE47495.1	tellurium resistance system protein TerA	NA	NA
+NA	ABTGUD010000002.1	292052	292909	+	blaSHV-27	broad-spectrum class A beta-lactamase SHV-27	core	AMR	AMR	BETA-LACTAM	BETA-LACTAM	ALLELEX	286	286	100.00	100.00	286	WP_023282555.1	broad-spectrum class A beta-lactamase SHV-27	NA	NA
+NA	ABTGUD010000005.1	35814	36986	+	oqxA	multidrug efflux RND transporter periplasmic adaptor subunit OqxA	core	AMR	AMR	NITROFURAN/PHENICOL/QUINOLONE/TETRACYCLINE	NITROFURANTOIN/PHENICOL/QUINOLONE/TIGECYCLINE	BLASTX	391	391	100.00	99.74	391	WP_004212918.1	multidrug efflux RND transporter periplasmic adaptor subunit OqxA11	NA	NA
+NA	ABTGUD010000005.1	37013	40162	+	oqxB	multidrug efflux RND transporter permease subunit OqxB	core	AMR	AMR	NITROFURAN/PHENICOL/QUINOLONE/TETRACYCLINE	NITROFURANTOIN/PHENICOL/QUINOLONE/TIGECYCLINE	BLASTX	1050	1050	100.00	99.90	1050	WP_004149399.1	multidrug efflux RND transporter permease subunit OqxB19	NA	NA
+NA	ABTGUD010000008.1	346184	346600	-	fosA	FosA5 family fosfomycin resistance glutathione transferase	core	AMR	AMR	FOSFOMYCIN	FOSFOMYCIN	BLASTX	139	139	100.00	99.28	139	WP_114473955.1	fosfomycin resistance glutathione transferase FosA9	NA	NA
+NA	ABTGUD010000012.1	79844	81025	-	emrD	multidrug efflux MFS transporter EmrD	plus	AMR	AMR	EFFLUX	EFFLUX	BLASTX	394	394	100.00	99.75	394	ACN65732.1	multidrug efflux MFS transporter EmrD	NA	NA
+NA	ABTGUD010000013.1	59177	60076	+	fieF	CDF family cation-efflux transporter FieF	plus	STRESS	METAL	NA	NA	BLASTX	300	300	100.00	99.67	300	BAB89353.1	CDF family cation-efflux transporter FieF	NA	NA
+NA	ABTGUD010000017.1	904	1332	-	silE	silver-binding protein SilE	plus	STRESS	METAL	SILVER	SILVER	BLASTX	143	143	100.00	91.61	143	AAD11743.1	silver-binding protein SilE	NA	NA
+NA	ABTGUD010000017.1	1586	3058	-	silS	copper/silver sensor histidine kinase SilS	plus	STRESS	METAL	COPPER/SILVER	COPPER/SILVER	EXACTX	491	491	100.00	100.00	491	SPD96882.1	copper/silver sensor histidine kinase SilS	NA	NA
+NA	ABTGUD010000017.1	3054	3731	-	silR	copper/silver response regulator transcription factor SilR	plus	STRESS	METAL	COPPER/SILVER	COPPER/SILVER	EXACTX	226	226	100.00	100.00	226	SPD96883.1	copper/silver response regulator transcription factor SilR	NA	NA
+NA	ABTGUD010000017.1	3921	5303	+	silC	Cu(+)/Ag(+) efflux RND transporter outer membrane channel SilC	plus	STRESS	METAL	COPPER/SILVER	COPPER/SILVER	EXACTX	461	461	100.00	100.00	461	SPD96884.1	Cu(+)/Ag(+) efflux RND transporter outer membrane channel SilC	NA	NA
+NA	ABTGUD010000017.1	5335	5685	+	silF	Cu(+)/Ag(+) efflux RND transporter periplasmic metallochaperone SilF	plus	STRESS	METAL	COPPER/SILVER	COPPER/SILVER	BLASTX	117	117	100.00	99.15	117	KGL71342.1	Cu(+)/Ag(+) efflux RND transporter periplasmic metallochaperone SilF	NA	NA
+NA	ABTGUD010000017.1	5802	7091	+	silB	Cu(+)/Ag(+) efflux RND transporter periplasmic adaptor subunit SilB	plus	STRESS	METAL	COPPER/SILVER	COPPER/SILVER	BLASTX	430	430	100.00	97.91	430	AAD11748.1	Cu(+)/Ag(+) efflux RND transporter periplasmic adaptor subunit SilB	NA	NA
+NA	ABTGUD010000017.1	7105	10248	+	silA	Cu(+)/Ag(+) efflux RND transporter permease subunit SilA	plus	STRESS	METAL	COPPER/SILVER	COPPER/SILVER	BLASTX	1048	1048	100.00	98.85	1048	AAD11749.1	Cu(+)/Ag(+) efflux RND transporter permease subunit SilA	NA	NA
+NA	ABTGUD010000017.1	10884	13355	+	silP	Ag(+)-translocating P-type ATPase SilP	plus	STRESS	METAL	SILVER	SILVER	BLASTX	824	824	99.64	94.18	825	AAD11750.1	Ag(+)-translocating P-type ATPase SilP	NA	NA
+NA	ABTGUD010000017.1	15339	17153	+	pcoA	multicopper oxidase PcoA	plus	STRESS	METAL	COPPER	COPPER	EXACTX	605	605	100.00	100.00	605	CAA58525.1	multicopper oxidase PcoA	NA	NA
+NA	ABTGUD010000017.1	17162	18049	+	pcoB	copper-binding protein PcoB	plus	STRESS	METAL	COPPER	COPPER	EXACTX	296	296	100.00	100.00	296	CAA58526.1	copper-binding protein PcoB	NA	NA
+NA	ABTGUD010000017.1	18092	18469	+	pcoC	copper resistance system metallochaperone PcoC	plus	STRESS	METAL	COPPER	COPPER	EXACTX	126	126	100.00	100.00	126	CAA58527.1	copper resistance system metallochaperone PcoC	NA	NA
+NA	ABTGUD010000017.1	18477	19403	+	pcoD	copper resistance inner membrane protein PcoD	plus	STRESS	METAL	COPPER	COPPER	BLASTX	309	309	100.00	99.68	309	CAA58528.1	copper resistance inner membrane protein PcoD	NA	NA
+NA	ABTGUD010000017.1	19461	20138	+	pcoR	copper response regulator transcription factor PcoR	plus	STRESS	METAL	COPPER	COPPER	EXACTX	226	226	100.00	100.00	226	CAA58529.1	copper response regulator transcription factor PcoR	NA	NA
+NA	ABTGUD010000017.1	20138	21535	+	pcoS	copper resistance membrane spanning protein PcoS	plus	STRESS	METAL	COPPER	COPPER	BLASTX	466	466	100.00	99.14	466	CAA58530.1	copper resistance membrane spanning protein PcoS	NA	NA
+NA	ABTGUD010000017.1	21755	22186	+	pcoE	copper resistance system metallochaperone PcoE	plus	STRESS	METAL	COPPER	COPPER	BLASTX	144	144	100.00	94.44	144	CAA58532.1	copper resistance system metallochaperone PcoE	NA	NA
+NA	ABTGUD010000017.1	30228	30650	-	arsC	glutaredoxin-dependent arsenate reductase	plus	STRESS	METAL	ARSENIC	ARSENATE	EXACTX	141	141	100.00	100.00	141	BAA24824.1	glutaredoxin-dependent arsenate reductase	NA	NA
+NA	ABTGUD010000017.1	30666	31952	-	arsB	arsenite efflux transporter membrane subunit ArsB	plus	STRESS	METAL	ARSENIC	ARSENITE	EXACTX	429	429	100.00	100.00	429	BAA24823.1	arsenite efflux transporter membrane subunit ArsB	NA	NA
+NA	ABTGUD010000017.1	32003	33751	-	arsA	arsenite efflux transporter ATPase subunit ArsA	plus	STRESS	METAL	ARSENIC	ARSENITE	EXACTX	583	583	100.00	100.00	583	BAA24822.1	arsenite efflux transporter ATPase subunit ArsA	NA	NA
+NA	ABTGUD010000017.1	33772	34131	-	arsD	arsenite efflux transporter metallochaperone ArsD	plus	STRESS	METAL	ARSENIC	ARSENITE	BLASTX	120	120	100.00	91.67	120	AAB09625.1	arsenite efflux transporter metallochaperone ArsD	NA	NA
+NA	ABTGUD010000017.1	34184	34531	-	arsR	As(III)-sensing metalloregulatory transcriptional repressor ArsR	plus	STRESS	METAL	ARSENIC	ARSENIC	EXACTX	116	116	100.00	100.00	116	AET17094.1	As(III)-sensing metalloregulatory transcriptional repressor ArsR	NA	NA
+NA	ABTGUD010000017.1	44073	46859	-	clpK	heat shock survival AAA family ATPase ClpK	plus	STRESS	HEAT	NA	NA	BLASTX	929	949	97.89	99.25	929	ASF80763.1	heat shock survival AAA family ATPase ClpK	NA	NA
+NA	ABTGUD010000017.1	46986	47552	-	hsp20	small heat shock protein sHSP20	plus	STRESS	HEAT	NA	NA	EXACTX	189	189	100.00	100.00	189	CDY80020.1	small heat shock protein sHSP20	NA	NA
+NA	ABTGUD010000022.1	3078	3956	+	blaKPC-3	carbapenem-hydrolyzing class A beta-lactamase KPC-3	core	AMR	AMR	BETA-LACTAM	CARBAPENEM	ALLELEX	293	293	100.00	100.00	293	WP_004152396.1	carbapenem-hydrolyzing class A beta-lactamase KPC-3	NA	NA
+NA	ABTGUD010000023.1	394	1266	-	blaCTX-M-15	extended-spectrum class A beta-lactamase CTX-M-15	core	AMR	AMR	BETA-LACTAM	CEPHALOSPORIN	ALLELEX	291	291	100.00	100.00	291	WP_000239590.1	extended-spectrum class A beta-lactamase CTX-M-15	NA	NA
+NA	ABTGUD010000023.1	4088	4945	+	blaTEM-1	broad-spectrum class A beta-lactamase TEM-1	core	AMR	AMR	BETA-LACTAM	BETA-LACTAM	ALLELEX	286	286	100.00	100.00	286	WP_000027057.1	broad-spectrum class A beta-lactamase TEM-1	NA	NA
+NA	ABTGUD010000023.1	5672	6505	-	aph(6)-Id	aminoglycoside O-phosphotransferase APH(6)-Id	core	AMR	AMR	AMINOGLYCOSIDE	STREPTOMYCIN	EXACTX	278	278	100.00	100.00	278	WP_000480968.1	aminoglycoside O-phosphotransferase APH(6)-Id	NA	NA
+NA	ABTGUD010000023.1	6508	7308	-	aph(3'')-Ib	aminoglycoside O-phosphotransferase APH(3'')-Ib	core	AMR	AMR	AMINOGLYCOSIDE	STREPTOMYCIN	EXACTX	267	267	100.00	100.00	267	WP_001082319.1	aminoglycoside O-phosphotransferase APH(3'')-Ib	NA	NA
+NA	ABTGUD010000023.1	7372	8184	-	sul2	sulfonamide-resistant dihydropteroate synthase Sul2	core	AMR	AMR	SULFONAMIDE	SULFONAMIDE	EXACTX	271	271	100.00	100.00	271	WP_001043260.1	sulfonamide-resistant dihydropteroate synthase Sul2	NA	NA
+NA	ABTGUD010000024.1	821	1462	-	qnrB1	quinolone resistance pentapeptide repeat protein QnrB1	core	AMR	AMR	QUINOLONE	QUINOLONE	ALLELEX	214	214	100.00	100.00	214	WP_014386481.1	quinolone resistance pentapeptide repeat protein QnrB1	NA	NA
+NA	ABTGUD010000025.1	4604	5074	-	dfrA14	trimethoprim-resistant dihydrofolate reductase DfrA14	core	AMR	AMR	TRIMETHOPRIM	TRIMETHOPRIM	EXACTX	157	157	100.00	100.00	157	WP_004201280.1	trimethoprim-resistant dihydrofolate reductase DfrA14	NA	NA
+NA	ABTGUD010000032.1	1698	2555	-	aac(3)-IIe	aminoglycoside N-acetyltransferase AAC(3)-IIe	core	AMR	AMR	AMINOGLYCOSIDE	GENTAMICIN	EXACTX	286	286	100.00	100.00	286	WP_000557452.1	aminoglycoside N-acetyltransferase AAC(3)-IIe	NA	NA
+NA	ABTGUD010000034.1	3	440	-	catB3	type B-3 chloramphenicol O-acetyltransferase CatB3	core	AMR	AMR	PHENICOL	CHLORAMPHENICOL	PARTIAL_CONTIG_ENDX	146	210	69.52	100.00	146	WP_000186237.1	type B-3 chloramphenicol O-acetyltransferase CatB3	NA	NA
+NA	ABTGUD010000034.1	581	1408	-	blaOXA-1	oxacillin-hydrolyzing class D beta-lactamase OXA-1	core	AMR	AMR	BETA-LACTAM	CEPHALOSPORIN	ALLELEX	276	276	100.00	100.00	276	WP_001334766.1	oxacillin-hydrolyzing class D beta-lactamase OXA-1	NA	NA
+NA	ABTGUD010000034.1	1542	2093	-	aac(6')-Ib-cr5	fluoroquinolone-acetylating aminoglycoside 6'-N-acetyltransferase AAC(6')-Ib-cr5	core	AMR	AMR	AMINOGLYCOSIDE/QUINOLONE	AMIKACIN/KANAMYCIN/QUINOLONE/TOBRAMYCIN	ALLELEX	184	184	100.00	100.00	184	WP_063840321.1	fluoroquinolone-acetylating aminoglycoside 6'-N-acetyltransferase AAC(6')-Ib-cr5	NA	NA
+NA	ABTGUD010000050.1	3119	3997	+	blaKPC-3	carbapenem-hydrolyzing class A beta-lactamase KPC-3	core	AMR	AMR	BETA-LACTAM	CARBAPENEM	ALLELEX	293	293	100.00	100.00	293	WP_004152396.1	carbapenem-hydrolyzing class A beta-lactamase KPC-3	NA	NA
+NA	ABTGUD010000051.1	7111	8283	+	oqxA	multidrug efflux RND transporter periplasmic adaptor subunit OqxA	core	AMR	AMR	NITROFURAN/PHENICOL/QUINOLONE/TETRACYCLINE	NITROFURANTOIN/PHENICOL/QUINOLONE/TIGECYCLINE	BLASTX	391	391	100.00	99.74	391	WP_004212918.1	multidrug efflux RND transporter periplasmic adaptor subunit OqxA11	NA	NA
+NA	ABTGUD010000051.1	8310	11459	+	oqxB	multidrug efflux RND transporter permease subunit OqxB	core	AMR	AMR	NITROFURAN/PHENICOL/QUINOLONE/TETRACYCLINE	NITROFURANTOIN/PHENICOL/QUINOLONE/TIGECYCLINE	BLASTX	1050	1050	100.00	99.90	1050	WP_004149399.1	multidrug efflux RND transporter permease subunit OqxB19	NA	NA
+NA	ABTGUD010000053.1	216	632	+	fosA	FosA5 family fosfomycin resistance glutathione transferase	core	AMR	AMR	FOSFOMYCIN	FOSFOMYCIN	BLASTX	139	139	100.00	99.28	139	WP_114473955.1	fosfomycin resistance glutathione transferase FosA9	NA	NA
+NA	ABTGUD010000054.1	6582	7223	+	qnrB1	quinolone resistance pentapeptide repeat protein QnrB1	core	AMR	AMR	QUINOLONE	QUINOLONE	ALLELEX	214	214	100.00	100.00	214	WP_014386481.1	quinolone resistance pentapeptide repeat protein QnrB1	NA	NA
+NA	ABTGUD010000056.1	676	1533	+	blaSHV-27	broad-spectrum class A beta-lactamase SHV-27	core	AMR	AMR	BETA-LACTAM	BETA-LACTAM	ALLELEX	286	286	100.00	100.00	286	WP_023282555.1	broad-spectrum class A beta-lactamase SHV-27	NA	NA
+NA	ABTGUD010000057.1	463	1275	+	sul2	sulfonamide-resistant dihydropteroate synthase Sul2	core	AMR	AMR	SULFONAMIDE	SULFONAMIDE	EXACTX	271	271	100.00	100.00	271	WP_001043260.1	sulfonamide-resistant dihydropteroate synthase Sul2	NA	NA
+NA	ABTGUD010000057.1	1339	2139	+	aph(3'')-Ib	aminoglycoside O-phosphotransferase APH(3'')-Ib	core	AMR	AMR	AMINOGLYCOSIDE	STREPTOMYCIN	EXACTX	267	267	100.00	100.00	267	WP_001082319.1	aminoglycoside O-phosphotransferase APH(3'')-Ib	NA	NA
+NA	ABTGUD010000057.1	2142	2975	+	aph(6)-Id	aminoglycoside O-phosphotransferase APH(6)-Id	core	AMR	AMR	AMINOGLYCOSIDE	STREPTOMYCIN	EXACTX	278	278	100.00	100.00	278	WP_000480968.1	aminoglycoside O-phosphotransferase APH(6)-Id	NA	NA
+NA	ABTGUD010000058.1	1745	2617	+	blaCTX-M-15	extended-spectrum class A beta-lactamase CTX-M-15	core	AMR	AMR	BETA-LACTAM	CEPHALOSPORIN	ALLELEX	291	291	100.00	100.00	291	WP_000239590.1	extended-spectrum class A beta-lactamase CTX-M-15	NA	NA
+NA	ABTGUD010000059.1	1690	2160	+	dfrA14	trimethoprim-resistant dihydrofolate reductase DfrA14	core	AMR	AMR	TRIMETHOPRIM	TRIMETHOPRIM	EXACTX	157	157	100.00	100.00	157	WP_004201280.1	trimethoprim-resistant dihydrofolate reductase DfrA14	NA	NA
+NA	ABTGUD010000060.1	84	941	+	aac(3)-IIe	aminoglycoside N-acetyltransferase AAC(3)-IIe	core	AMR	AMR	AMINOGLYCOSIDE	GENTAMICIN	EXACTX	286	286	100.00	100.00	286	WP_000557452.1	aminoglycoside N-acetyltransferase AAC(3)-IIe	NA	NA
+NA	ABTGUD010000061.1	84	941	+	aac(3)-IIe	aminoglycoside N-acetyltransferase AAC(3)-IIe	core	AMR	AMR	AMINOGLYCOSIDE	GENTAMICIN	BLASTX	286	286	100.00	98.95	286	WP_000557452.1	aminoglycoside N-acetyltransferase AAC(3)-IIe	NA	NA
+NA	ABTGUD010000062.1	84	941	+	aac(3)-IIe	aminoglycoside N-acetyltransferase AAC(3)-IIe	core	AMR	AMR	AMINOGLYCOSIDE	GENTAMICIN	BLASTX	286	286	100.00	99.30	286	WP_000557452.1	aminoglycoside N-acetyltransferase AAC(3)-IIe	NA	NA
+NA	ABTGUD010000063.1	130	681	+	aac(6')-Ib-cr5	fluoroquinolone-acetylating aminoglycoside 6'-N-acetyltransferase AAC(6')-Ib-cr5	core	AMR	AMR	AMINOGLYCOSIDE/QUINOLONE	AMIKACIN/KANAMYCIN/QUINOLONE/TOBRAMYCIN	ALLELEX	184	184	100.00	100.00	184	WP_063840321.1	fluoroquinolone-acetylating aminoglycoside 6'-N-acetyltransferase AAC(6')-Ib-cr5	NA	NA
+NA	ABTGUD010000063.1	815	1642	+	blaOXA-1	oxacillin-hydrolyzing class D beta-lactamase OXA-1	core	AMR	AMR	BETA-LACTAM	CEPHALOSPORIN	ALLELEX	276	276	100.00	100.00	276	WP_001334766.1	oxacillin-hydrolyzing class D beta-lactamase OXA-1	NA	NA
+NA	ABTGUD010000063.1	1783	2223	+	catB3	type B-3 chloramphenicol O-acetyltransferase CatB3	core	AMR	AMR	PHENICOL	CHLORAMPHENICOL	PARTIALX	147	210	70.00	100.00	147	WP_000186237.1	type B-3 chloramphenicol O-acetyltransferase CatB3	NA	NA
+NA	ABTGUD010000064.1	1025	1882	+	blaTEM-1	broad-spectrum class A beta-lactamase TEM-1	core	AMR	AMR	BETA-LACTAM	BETA-LACTAM	ALLELEX	286	286	100.00	100.00	286	WP_000027057.1	broad-spectrum class A beta-lactamase TEM-1	NA	NA
 ```
 
 #### What the columns are
@@ -330,6 +374,8 @@ NA	ACCXAQ010000031.1	1474	2244	+	blaOXA-193	OXA-61 family class D beta-lactamase
 
 The Campylobacter isolate is expected to carry blaOXA-193 and arsP.
 
+The Klebsiella isolate is expected to carry several genes associated with AMR, including aac(3)-IIe, aac(6')-Ib-cr5, aph(3'')-Ib, aph(6)-Id, blaCTX-M-15, blaKPC-3, blaOXA-1, blaSHV-27, blaTEM-1, catB3, dfrA14, emrD, fosA, oqxA, oqxB, qnrB1, and sul2.
+
 
 ## Methodological Comparison
 
@@ -342,6 +388,32 @@ The Campylobacter isolate is expected to carry blaOXA-193 and arsP.
 
 ### Mechanistic Discrepancies and Biological Implications
 
-The discrepancy between the two tools is most evident in the detection of non-functional or truncated determinants. In the Klebsiella isolate, ABRicate identifies the presence of the cirA locus; however, AMRFinderPlus identifies a POINT_DISRUPT event (cirA_L58Ter). This premature stop codon renders the catecholate siderophore receptor non-functional. ABRicate, relying solely on nucleotide identity, lacks the translational logic required to flag this as a resistance marker.
+When two different bioinformatics pipelines analyze the exact same bacterial genome and output different names for the same gene (e.g., blaOXA-605 vs. blaOXA-193 in a Campylobacter isolate), it can create confusion for epidemiological tracking. To be clear, this variation does not represent a biological change in the organism. It is an artifact of the differing methodologies, curation schemas, and alignment spaces used by the two tools.
 
-In the Campylobacter isolate, the variation in allelic nomenclature, bla_OXA-605 versus bla_OXA-193, is a result of differing versioning and curation between the NCBI and ABRicate’s database snapshots. Notably, AMRFinderPlus identified an internal stop codon in the arsP permease (95.24% identity), demonstrating sensitivity to pseudogene formation that simple DNA alignment often overlooks. For the bioinformatician, these results emphasize that while ABRicate provides a rapid "first-pass" screen, AMRFinderPlus is required to resolve the translational reality of the bacterial resistome.
+#### There are two primary technical reasons why these methods produce different results.
+
+1. Database Versioning and Curation Snapshots
+The most common driver of nomenclature discrepancies is how databases are maintained and updated.
+
+ABRicate's Database Structure: ABRicate utilizes local, static "snapshots" of various public databases (such as CARD, ResFinder, or NCBI) that are packaged into the software at a specific point in time. If the software image has database snapshots from an older or different curation branch, it will assign names based on the definitions available at that exact time.
+
+AMRFinderPlus's Database Structure: AMRFinderPlus relies strictly on the NCBI Reference Gene Catalog (NDARO). This database is curated dynamically by NCBI to coordinate global submissions and standardize nomenclature across public health networks.
+
+Because international committees constantly reclassify, rename, and merge resistance gene families as new sequences are discovered, a database snapshot taken at one time may classify a sequence as blaOXA-605, while a more recently curated or differently structured database catalog will classify the exact same sequence as blaOXA-193.
+
+2. Alignment Logic: Nucleotide vs. Amino Acid Space
+The underlying algorithm dictates how closely a query sequence must match a reference to receive a specific allelic name.
+
+ABRicate (Nucleotide Space): ABRicate uses BLASTN (DNA-to-DNA) alignment. It evaluates the exact sequence of A, T, C, and G nucleotides. If a sequence has a silent (synonymous) mutation that changes a single nucleotide but does not alter the resulting protein, ABRicate may still classify it as a different nucleotide allele based strictly on DNA identity.
+
+AMRFinderPlus (Protein Space): AMRFinderPlus translates the genomic DNA into an amino acid sequence (protein) and screens it using BLASTX and Hidden Markov Models (HMMs). Because the genetic code is redundant (multiple codons can code for the same amino acid), divergent nucleotide sequences can produce identical functional proteins. AMRFinderPlus will type the gene based on its functional amino acid structure (ALLELEX or EXACTX), effectively compressing multiple nucleotide variants under a single protein allele designation.
+
+#### Why This is Volatile Across Different Organisms
+As the note highlights, the specific reason for a discrepancy can change depending on the organism being studied:
+
+In this Campylobacter case, the shift is primarily due to curation differences and database version synchronization between NCBI's reference set and the database version bundled into ABRicate.
+
+In other organisms (like Klebsiella or Escherichia), the discrepancy might be driven by point-mutation interpretation or structural truncation detection. For instance, a nucleotide tool might flag a full-length gene based on high DNA identity, while a protein-based tool might down-type or change the name of the gene because it detects a single-nucleotide polymorphism (SNP) that changes the enzyme's binding affinity or creates a premature stop codon.
+
+#### Summary of Implications for Public Health
+For epidemiologists and laboratorians, these nomenclature differences are problematic because they can falsely suggest that two outbreaks are caused by different strains when they are actually identical. To resolve this, public health laboratories must standardize their pipelines, record the exact version numbers of the databases used, and look beyond the literal gene names to understand the functional drug resistance profile being reported.
