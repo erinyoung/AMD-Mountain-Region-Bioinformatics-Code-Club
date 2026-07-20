@@ -1,5 +1,7 @@
 # Taxonomic Classification with Kraken2
 
+IMPORTANT INFORMATION: This code-along requires more than 8GB of memory. Please choose an option, like the 4 core, 16GB memory option in GitHub codespaces.
+
 ## Session Overview
 
 The primary objective of this 30-minute session is to understand how to use Kraken2 and some of the associated caveats.
@@ -11,6 +13,8 @@ By the end of this 30-minute code-along, participants will be able to:
 * **Evaluate database dependencies:** Explain why running the exact same sample against a standard 8GB database versus a targeted viral database yields fundamentally different results.
 
 ## References
+TODO : Add Krona
+
 * https://github.com/DerrickWood/kraken2
 * https://github.com/jenniferlu717/KrakenTools
 * https://en.wikipedia.org/wiki/K-mer
@@ -63,10 +67,11 @@ docker pull staphb/kraken2:2.17.1
 alias kraken2='docker run --rm -v "$(pwd):/data" -w /data staphb/kraken2:2.17.1 kraken2'
 ```
 
-### Pulling KrakenTools
+### Pulling KrakenTools from Staph-B/Krona
 ```bash
-docker pull staphb/krakentools:d4a2fbe
-alias amrfinder='docker run --rm -v "$(pwd):/data" -w /data staphb/krakentools:d4a2fbe amrfinder'
+docker pull staphb/krona:2.8.1
+# This is going to allow us to use KrakenTools in an interactive, stepwise way
+alias krakentools_env='docker run --rm -v "$(pwd):/data" -it -w /data staphb/krona:2.8.1 bash'
 ```
 
 ## Download some test files
@@ -101,7 +106,7 @@ cd standard_8gb
 # Download the pre-built 8GB database archive (took 3-3.5 minutes when preparing these materials)
 wget https://genome-idx.s3.amazonaws.com/kraken/k2_standard_08_GB_20260626.tar.gz
 
-# Extract the archive
+# Extract the archive (took an additional ~5 minutes)
 tar -xvzf k2_standard_08_GB_20260626.tar.gz
 
 # Clean up the compressed file to save disk space
@@ -187,15 +192,61 @@ First, classify the reads in the FASTQ files with the Standard 8GB Database that
 
 ```bash
 # Run the sample against the Standard 8GB Database
+# Remember, in this instance kraken2 is an alias
+# --paired indicates that a pair of FASTQ files are being used as input
+# --report sets the name of the kraken2 report
+# --output sets the name of the kraken2 output
 kraken2 --db standard_8gb \
   --paired SRR35981380_1.fastq.gz SRR35981380_2.fastq.gz \
   --report kraken2_standard.report \
   --output kraken2_standard.kraken
 ```
 
-> **Memory Watch:** The command utilizing the `standard_8gb` database takes significantly longer to load into memory before the classification begins. This is because Kraken2 maps the **entire** database into RAM. In the free-tier Codespace, the system has to work hard to manage this process. Conversely, the smaller viral database will load almost instantly.
+Something like the following should be printed to the screen
+```output
+Loading database information... done.
+471103 sequences (101.58 Mbp) processed in 4.136s (6834.8 Kseq/m, 1473.74 Mbp/m).
+  206482 sequences classified (43.83%)
+  264621 sequences unclassified (56.17%)
+```
+
+And we have to files:
+
+```output
+$ head kraken2_standard.kraken 
+U       SRR35981380.1   0       151|150 0:117 |:| 0:4 11234:5 0:107
+U       SRR35981380.2   0       116|116 0:82 |:| 0:82
+C       SRR35981380.3   11234   151|151 0:26 11234:8 0:7 11234:2 0:4 11234:5 0:65 |:| 0:80 11234:5 0:4 11234:2 0:7 11234:8 0:11
+U       SRR35981380.4   0       68|68   0:34 |:| 0:34
+C       SRR35981380.5   11234   106|106 0:55 11234:5 0:12 |:| 0:12 11234:5 0:55
+C       SRR35981380.6   11240   151|149 0:84 11240:5 0:28 |:| 0:32 11240:5 0:78
+U       SRR35981380.7   0       85|85   0:51 |:| 0:51
+C       SRR35981380.8   11234   126|126 0:82 11234:5 0:5 |:| 0:5 11234:5 0:82
+C       SRR35981380.9   11234   124|124 0:76 11234:1 0:13 |:| 0:13 11234:1 0:76
+U       SRR35981380.10  0       116|116 0:82 |:| 0:82
+```
+
+And
+
+```output
+$ head kraken2_standard.report 
+ 56.17  264621  264621  U       0       unclassified
+ 43.83  206482  7       R       1       root
+ 41.70  196459  0       R1      10239     Viruses
+ 41.70  196459  0       R2      2559587     Riboviria
+ 41.70  196459  0       K       2732396       Orthornavirae
+ 41.70  196459  0       P       2497569         Negarnaviricota
+ 41.70  196459  0       P1      2497570           Haploviricotina
+ 41.70  196459  0       C       2497574             Monjiviricetes
+ 41.70  196459  0       O       11157                 Mononegavirales
+ 41.70  196459  0       F       11158                   Paramyxoviridae
+```
+
+> **Memory Watch:** The command utilizing the `standard_8gb` database takes significantly longer to load into memory before the classification begins. This is because Kraken2 maps the **entire** database into RAM. If this cannot happen, as in the current lowest-tier in the free-tier Codespace options, Kraken2 will fail to run.
 
 ### Using the Viral Database
+
+Running on the viral database is similar
 
 ```bash
 # Run the sample against the Viral Database
@@ -205,40 +256,126 @@ kraken2 --db viral \
   --output kraken2_viral.kraken
 ```
 
+Something like the following should be printed to the screen
+```output
+Loading database information... done.
+471103 sequences (101.58 Mbp) processed in 5.404s (5230.3 Kseq/m, 1127.78 Mbp/m).
+  429089 sequences classified (91.08%)
+  42014 sequences unclassified (8.92%)
+```
+
+**Woah! Look at how many more reads were classified!!!**
+
+And the output files look similar. Below is the Kraken2 output.
+
+```output
+$ head kraken2_viral.kraken 
+C       SRR35981380.1   11234   151|150 0:11 11234:2 0:3 11234:3 0:13 11234:85 |:| 0:4 11234:91 0:13 11234:3 0:3 11234:2
+C       SRR35981380.2   11234   116|116 0:4 11234:6 0:11 11234:61 |:| 11234:61 0:11 11234:6 0:4
+C       SRR35981380.3   11234   151|151 0:12 11234:1 0:11 11234:30 0:24 11234:3 0:34 11234:2 |:| 0:5 11234:12 0:34 11234:3 0:24 11234:30 0:9
+C       SRR35981380.4   11234   68|68   0:7 11234:5 0:22 |:| 0:22 11234:5 0:7
+C       SRR35981380.5   11234   106|106 11234:12 0:3 11234:5 0:35 11234:5 0:1 11234:11 |:| 11234:11 0:1 11234:5 0:35 11234:5 0:3 11234:12
+C       SRR35981380.6   11234   151|149 0:47 11234:1 0:3 11234:7 0:1 11234:6 0:1 11234:10 0:5 11234:2 0:1 11240:5 0:18 11234:5 0:5 |:| 0:9 11234:5 0:18 11240:5 0:1 11234:2 0:5 11234:10 0:1 11234:6 0:1 11234:7 0:3 11234:1 0:41
+U       SRR35981380.7   0       85|85   0:51 |:| 0:51
+C       SRR35981380.8   11234   126|126 0:4 11234:6 0:13 11234:2 0:54 11234:2 0:1 11234:10 |:| 11234:10 0:1 11234:2 0:54 11234:2 0:13 11234:6 0:4
+C       SRR35981380.9   11234   124|124 0:5 11234:2 0:29 11234:9 0:3 11234:1 0:5 11234:36 |:| 11234:36 0:5 11234:1 0:3 11234:9 0:11 11234:9 0:9 11234:2 0:5
+C       SRR35981380.10  11234   116|116 0:26 11234:48 0:8 |:| 0:13 11234:1 0:8 11234:34 0:26
+```
+
+The Kraken2 report
+```output
+$ head kraken2_viral.report 
+  8.92  42014   42014   U       0       unclassified
+ 91.08  429089  0       R       1       root
+ 91.08  429089  1       R1      10239     Viruses
+ 91.06  428989  0       R2      2559587     Riboviria
+ 91.06  428988  0       K       2732396       Orthornavirae
+ 91.06  428987  0       P       2497569         Negarnaviricota
+ 91.06  428987  0       P1      2497570           Haploviricotina
+ 91.06  428987  0       C       2497574             Monjiviricetes
+ 91.06  428987  0       O       11157                 Mononegavirales
+ 91.06  428987  0       F       11158                   Paramyxoviridae
+```
+
+
 ## Parsing and Combining Results with KrakenTools
 
-**KrakenTools** can be used to merge our data into a single master table. This allows directly observation of results side-by-side.
+The files generated from Kraken2 can be difficult to read on their own. It is recommended to use additional bioinformatic tools, such as [KrakenTools](https://github.com/jenniferlu717/KrakenTools), [Braken](https://github.com/jenniferlu717/Bracken), or [MultiQC](https://github.com/multiqc/multiqc) to get full use of these results.
 
-### Merging the Clinical Sample Reports
+This excersize will use **KrakenTools** to merge the generated data into a single master table. This allows directly observation of results side-by-side.
 
-We will merge the two clinical patient reports (`mev-pat-toy`) so we can compare how the 8GB database performed versus the Viral database.
+### Starting the container
 
-```bash
-# Combine the clinical reports for side-by-side comparison
-combine_kreports \
-  -r data/mev-pat-toy_standard.report data/mev-pat-toy_viral.report \
-  -o data/clinical_db_comparison.txt \
-  --sample-names Standard_8GB Viral
-
-# View the combined results
-column -t -s $'\t' data/clinical_db_comparison.txt | less -S
-
-```
-
-### Merging the Wastewater Sample Reports
-
-We will repeat the same step for the environmental wastewater sample.
+KrakenTools is a collection of scripts. The choice for this excersize was to generate several alias for KrakenTools, or to use an interactive container. It was decided that using a interactive container would perform best for this code-club.
 
 ```bash
-# Combine the wastewater reports for side-by-side comparison
-combine_kreports \
-  -r data/mev-ww-toy_standard.report data/mev-ww-toy_viral.report \
-  -o data/ww_db_comparison.txt \
-  --sample-names Standard_8GB Viral
-
-# View the combined results
-column -t -s $'\t' data/ww_db_comparison.txt | less -S
-
+krakentools_env
 ```
 
-> **Navigating the output:** Because the combined text files can be quite wide, we are piping the output into `less -S`. This allows you to use your left and right arrow keys to scroll horizontally and view all the columns. Press `q` to exit the viewer.
+This should start the interactive container with all relevant files contained inside:
+
+```output
+# ls
+2026-03-25  2026-07-23  README.md               SRR35981380_2.fastq.gz  kraken2_standard.kraken  kraken2_viral.kraken  standard_8gb
+2026-05-28  LICENSE     SRR35981380_1.fastq.gz  data                    kraken2_standard.report  kraken2_viral.report  viral
+```
+
+### Merging Reports
+
+```bash
+# Kraken2 reports for side-by-side comparison
+combine_kreports.py \
+  -r kraken2_standard.report kraken2_viral.report  \
+  -o combined_reports.tsv  \
+  --display-headers \
+  --sample-names standard viral
+```
+
+This prints the following to the screen
+```output
+>>STEP 1: READING REPORTS
+        2/2 samples processed
+>>STEP 2: WRITING NEW REPORT HEADERS
+>>STEP 3: PRINTING REPORT
+```
+
+And there are more samples in the Report
+
+```output
+# head combined_reports.tsv 
+#Number of Samples: 2
+#Total Number of Reads: 942206
+#standard       kraken2_standard.report
+#viral  kraken2_viral.report
+#perc   tot_all tot_lvl standard_all    standard_lvl    viral_all       viral_lvl       lvl_type        taxid   name
+32.5444 306635  306635  264621  264621  42014   42014   U       0       unclassified
+67.4556 635571  7       206482  7       429089  0       R       1       root
+66.3919 625548  1       196459  0       429089  1       R1      10239     Viruses
+66.3812 625448  0       196459  0       428989  0       R2      2559587     Riboviria
+66.3811 625447  0       196459  0       428988  0       K       2732396       Orthornavirae
+```
+
+
+### Getting a KRONA report
+
+Krona is separate from KrakenTools, which is separate from Kraken2. Krona graphs visually represent what is found in a sample. This is why this excersize uses an image with both Krona and KrakenTools installed.
+
+First, create a `.txt` file with KrakenTools for Krona import.
+
+```bash
+# For the results of the Standard Database
+kreport2krona.py -r kraken2_standard.report -o kraken2_standard_krona.txt
+
+# For the results of the Viral Database
+kreport2krona.py -r kraken2_viral.report -o kraken2_viral_krona.txt
+```
+
+Then create an `.html` file.
+```bash
+# For the results of the Standard Database
+ktImportText kraken2_standard_krona.txt -o kraken2_standard_krona.html
+# For the results of the Viral Database
+ktImportText kraken2_viral_krona.txt -o kraken2_viral_krona.html
+```
+
+These `.html` files can then be downloaded and visualized like any other Krona report.
