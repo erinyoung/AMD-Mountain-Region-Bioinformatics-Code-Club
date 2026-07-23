@@ -12,12 +12,22 @@ By the end of this 30-minute code-along, participants will be able to:
 * **Execute k-mer based classification:** Run FASTQ files through Kraken2 to assign taxonomic labels to short DNA reads.
 * **Evaluate database dependencies:** Explain why running the exact same sample against a standard 8GB database versus a targeted viral database yields fundamentally different results.
 
-## References
-TODO : Add Krona
+## Quickstart Setup
 
+The setup for this will take several minutes, which is a large portion of the 30 minute interval. To help things run smoothly, a bash script has been created that will
+1. set up the liases
+2. download the test FASTQ files
+3. download the kraken2 databases
+
+```bash
+source bin/setup_2026-07-23.sh
+```
+
+## References
 * https://github.com/DerrickWood/kraken2
 * https://github.com/jenniferlu717/KrakenTools
 * https://en.wikipedia.org/wiki/K-mer
+* https://github.com/multiqc/multiqc
 * Wood DE, Lu J, Langmead B. Improved metagenomic analysis with Kraken 2. Genome Biol. 2019 Nov 28;20(1):257. doi: 10.1186/s13059-019-1891-0. PMID: 31779668; PMCID: PMC6883579.
 * Liu Y, Ghaffari MH, Ma T, Tu Y. Impact of database choice and confidence score on the performance of taxonomic classification using Kraken2. aBIOTECH. 2024 Jul 31;5(4):465-475. doi: 10.1007/s42994-024-00178-0. PMID: 39650139; PMCID: PMC11624175.
 * Lu J, Rincon N, Wood DE, Breitwieser FP, Pockrandt C, Langmead B, Salzberg SL, Steinegger M. Metagenome analysis using the Kraken software suite. Nat Protoc. 2022 Dec;17(12):2815-2839. doi: 10.1038/s41596-022-00738-y. Epub 2022 Sep 28. Erratum in: Nat Protoc. 2026 Feb;21(2):872. doi: 10.1038/s41596-024-01064-1. PMID: 36171387; PMCID: PMC9725748.
@@ -67,11 +77,16 @@ docker pull staphb/kraken2:2.17.1
 alias kraken2='docker run --rm -v "$(pwd):/data" -w /data staphb/kraken2:2.17.1 kraken2'
 ```
 
-### Pulling KrakenTools from Staph-B/Krona
+### Pulling KrakenTools
 ```bash
-docker pull staphb/krona:2.8.1
-# This is going to allow us to use KrakenTools in an interactive, stepwise way
-alias krakentools_env='docker run --rm -v "$(pwd):/data" -it -w /data staphb/krona:2.8.1 bash'
+docker pull staphb/krakentools:1.2.1
+alias combine_kreports='docker run --rm -v "$(pwd):/data" -w /data staphb/krakentools:1.2.1 combine_kreports.py'
+```
+
+### Pulling MultiQC
+```bash
+docker pull staphb/multiqc:1.35 multiqc
+alias multiqc='docker run --rm -v "$(pwd):/data" -w /data staphb/multiqc:1.35 multiqc'
 ```
 
 ## Download some test files
@@ -302,29 +317,13 @@ $ head kraken2_viral.report
 
 The files generated from Kraken2 can be difficult to read on their own. It is recommended to use additional bioinformatic tools, such as [KrakenTools](https://github.com/jenniferlu717/KrakenTools), [Braken](https://github.com/jenniferlu717/Bracken), or [MultiQC](https://github.com/multiqc/multiqc) to get full use of these results.
 
-This excersize will use **KrakenTools** to merge the generated data into a single master table. This allows directly observation of results side-by-side.
-
-### Starting the container
-
-KrakenTools is a collection of scripts. The choice for this excersize was to generate several alias for KrakenTools, or to use an interactive container. It was decided that using a interactive container would perform best for this code-club.
-
-```bash
-krakentools_env
-```
-
-This should start the interactive container with all relevant files contained inside:
-
-```output
-# ls
-2026-03-25  2026-07-23  README.md               SRR35981380_2.fastq.gz  kraken2_standard.kraken  kraken2_viral.kraken  standard_8gb
-2026-05-28  LICENSE     SRR35981380_1.fastq.gz  data                    kraken2_standard.report  kraken2_viral.report  viral
-```
+This excersize will use **KrakenTools** to merge the generated data into a single master table. This allows directly observation of results side-by-side. KrakenTools has more functionality than this, but it's a small example.
 
 ### Merging Reports
 
 ```bash
 # Kraken2 reports for side-by-side comparison
-combine_kreports.py \
+combine_kreports \
   -r kraken2_standard.report kraken2_viral.report  \
   -o combined_reports.tsv  \
   --display-headers \
@@ -355,27 +354,12 @@ And there are more samples in the Report
 66.3811 625447  0       196459  0       428988  0       K       2732396       Orthornavirae
 ```
 
+## Visualizing with MultiQC
 
-### Getting a KRONA report
-
-Krona is separate from KrakenTools, which is separate from Kraken2. Krona graphs visually represent what is found in a sample. This is why this excersize uses an image with both Krona and KrakenTools installed.
-
-First, create a `.txt` file with KrakenTools for Krona import.
+MultiQC has a module to assist in visualizing Kraken2 results as a stacked bar graph.
 
 ```bash
-# For the results of the Standard Database
-kreport2krona.py -r kraken2_standard.report -o kraken2_standard_krona.txt
-
-# For the results of the Viral Database
-kreport2krona.py -r kraken2_viral.report -o kraken2_viral_krona.txt
+multiqc .
 ```
 
-Then create an `.html` file.
-```bash
-# For the results of the Standard Database
-ktImportText kraken2_standard_krona.txt -o kraken2_standard_krona.html
-# For the results of the Viral Database
-ktImportText kraken2_viral_krona.txt -o kraken2_viral_krona.html
-```
-
-These `.html` files can then be downloaded and visualized like any other Krona report.
+Results can now be visualized in `multiqc_report.html` and/or shared with colleagues.
