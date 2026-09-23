@@ -20,8 +20,8 @@ jobs:
       - name: Convert Markdown to PDF
         uses: baileyjm02/markdown-to-pdf@v1
         with:
-          # Combines the user-inputted folder path with the README filename
-          markdown_file: "${{ github.event.inputs.subdirectory }}/README.md"
+          # Changed from markdown_file to input_path
+          input_path: "${{ github.event.inputs.subdirectory }}/README.md"
           output_dir: "./pdf-output"
 
       - name: Upload PDF as Artifact
