@@ -1,0 +1,31 @@
+name: Manual Markdown to PDF
+
+on:
+  workflow_dispatch:
+    inputs:
+      subdirectory:
+        description: 'The subdirectory/date folder where your README.md is located'
+        required: true
+        default: '2026-09-23'
+        type: string
+
+jobs:
+  convert-readme:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Convert Markdown to PDF
+        uses: baileyjm02/markdown-to-pdf@v1
+        with:
+          # Combines the user-inputted folder path with the README filename
+          markdown_file: "${{ github.event.inputs.subdirectory }}/README.md"
+          output_dir: "./pdf-output"
+
+      - name: Upload PDF as Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: "compiled-readme-pdf"
+          path: "./pdf-output/*.pdf"
